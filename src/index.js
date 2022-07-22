@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Provider } from "react-redux";
 import { store } from "./redux/store.js";
 import Home from './pages/Home';
+import LogIn from './pages/LogIn';
 import './index.css';
 
 const root =  ReactDOM.createRoot(document.getElementById('root'));
@@ -15,7 +16,8 @@ root.render(
       <BrowserRouter>
           <Routes>
             <Route path="/" element={< Home />} />
-            <Route path="/employees"/>
+            <Route path="/login" element={< LogIn />} />
+            <Route path="/employees-form"/>
           </Routes>
       </BrowserRouter>
     </React.StrictMode>
