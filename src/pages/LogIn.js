@@ -1,5 +1,7 @@
-import React, { useState } from "react";
-import { Navigate, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import api from "../redux/ApiCalls";
 import logo from '../assets/logo.png';
 import './LogIn.css';
 
@@ -7,11 +9,24 @@ import './LogIn.css';
 export default function LogIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const isLoggedIn = useSelector((state)=>state.login.token)
+  const token = localStorage.getItem('token')
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+		if (token) {
+			navigate('/profile')
+		}
+	}, [token, navigate])
 
 
-  const handleSubmit = (e) => {
-    navigate('/')
+  async function handleSubmit() {
+    const resp = await api.loginUser(email, password)
+    console.log(resp)
+    if(resp) {
+      this.localStorage.setItem('token', resp.token)
+    }
   };
 
   return (
