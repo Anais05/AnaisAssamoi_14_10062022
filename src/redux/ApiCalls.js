@@ -11,6 +11,7 @@ class api {
         email: email,
         password: password
       })
+      localStorage.setItem('token', response.data.body.token)
       return response;
     } catch (error) {
       console.error(error);

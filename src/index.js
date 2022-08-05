@@ -13,11 +13,11 @@ root.render(
   <Provider store={store}>
     <React.StrictMode>
       <BrowserRouter>
-          <Routes>
-            <Route path="/" element={< Home />} />
-            <Route path="/login" element={< LogIn />} />
-            <Route path="/employees-form"/>
-          </Routes>
+        <Routes>
+          <Route path="/" element={< Home />} />
+          <Route path="/login" element={< LogIn />} />
+          <Route path="/employees-form"/>
+        </Routes>
       </BrowserRouter>
     </React.StrictMode>
   </Provider>,
