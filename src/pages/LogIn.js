@@ -20,9 +20,8 @@ export default function LogIn() {
 		}
 	}, [token, dispatch, navigate])
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    api.loginUser(email, password)
+  async function handleSubmit() {
+    await api.loginUser(email, password)
   };
 
   return (

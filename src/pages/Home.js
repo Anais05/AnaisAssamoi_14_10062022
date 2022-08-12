@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import List from '../components/List'
 
 export default function Home() {
   const isLoggedIn = useSelector((state)=>state.login.isLogged)
@@ -12,7 +13,7 @@ export default function Home() {
 
   return (
     <main className="main">
-      <h1>HOME PAGE</h1>
+      <List />
     </main>
   );
 }
