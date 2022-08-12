@@ -17,6 +17,16 @@ class api {
       console.error(error);
     }
   }
+
+  async employeeList(){
+    try {
+      const response = await axios.get(this.baseUrl + '/employee-list')
+      localStorage.setItem('list',  JSON.stringify(response.data.body))
+      return response;
+    } catch (error) {
+      console.error(error);
+    }
+  }
 }
 
 export default new api()

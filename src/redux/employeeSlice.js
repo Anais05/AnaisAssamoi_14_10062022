@@ -1,15 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit"
 
-const initialState = {
-  data: null,
-  error: null,
-}
-
-const { actions, reducer } = createSlice({
+const employeeSlice = createSlice({
   name: 'employee',
-  initialState,
+  initialState: {
+    list: null,
+  },
   reducers: {
+    getList: (state, action) => {
+      return {
+        ...state,
+        list: action.payload.list,
+      }
+    },
   }
 })
 
-export default reducer;
+export const { getList } = employeeSlice.actions 
+export default employeeSlice.reducer;

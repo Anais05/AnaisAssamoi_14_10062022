@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { login }from '../redux/loginSlice';
+import { login } from '../redux/loginSlice';
 import api from "../redux/ApiCalls";
 import logo from '../assets/logo.png';
 import './LogIn.css';
 
 export default function LogIn() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const token = localStorage.getItem('token')
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   useEffect(() => {
 		if (token) {

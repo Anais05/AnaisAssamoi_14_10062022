@@ -1,0 +1,10 @@
+.list {
+  width: 80%;
+  margin: 45px auto;
+  background-color: #fff;
+}
+
+.list-title {
+  font-size: 25px;
+  text-align: center;
+}
