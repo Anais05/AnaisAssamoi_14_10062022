@@ -7,4 +7,28 @@
 .list-title {
   font-size: 25px;
   text-align: center;
+  margin-bottom: 30px;
+}
+
+.list-table {
+  width: 95%;
+  margin: auto;
+}
+
+.list-search {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 50px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  margin: 25px 0;
+}
+
+.pagination-btn {
+  color: white;
+  background-color: #2591CE;
+  border: 0.5px solid #1b6a98;
 }
