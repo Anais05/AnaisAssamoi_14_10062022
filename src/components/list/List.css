@@ -1,7 +1,8 @@
 .list {
-  width: 80%;
+  width: 90%;
   margin: 45px auto;
   background-color: #fff;
+  padding: 20px 0;
 }
 
 .list-title {
@@ -19,6 +20,23 @@
   display: flex;
   justify-content: flex-end;
   margin-bottom: 50px;
+}
+
+.list-search #search {
+  margin-left: 15px;
+}
+
+.action-btn {
+  border: none;
+  background-color: transparent;
+}
+
+.edit-btn {
+  color:#2591CE;
+}
+
+.delete-btn {
+  color: red;
 }
 
 .pagination {

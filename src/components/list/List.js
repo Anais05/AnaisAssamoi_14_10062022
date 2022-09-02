@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from 'prop-types';
-import { Table, Header, HeaderRow, Body, Row, Cell } from '@table-library/react-table-library/table';
+import { Table, Header, HeaderRow, HeaderCell, Body, Row, Cell } from '@table-library/react-table-library/table';
 import { useTheme } from '@table-library/react-table-library/theme';
 import { getTheme } from '@table-library/react-table-library/baseline';
 import { usePagination } from '@table-library/react-table-library/pagination';
@@ -79,15 +79,17 @@ export default function List({list}) {
             <>
               <Header>
                 <HeaderRow>
-                  <HeaderCellSort sortKey="FIST">Firstname</HeaderCellSort>
-                  <HeaderCellSort sortKey="LAST">Lastname</HeaderCellSort>
-                  <HeaderCellSort sortKey="START">StartDate</HeaderCellSort>
-                  <HeaderCellSort sortKey="DEPART">Department</HeaderCellSort>
-                  <HeaderCellSort sortKey="BIRTH">BirthDay</HeaderCellSort>
-                  <HeaderCellSort sortKey="STREET">Street</HeaderCellSort>
-                  <HeaderCellSort sortKey="CITY">City</HeaderCellSort>
-                  <HeaderCellSort sortKey="STATE">State</HeaderCellSort>
-                  <HeaderCellSort sortKey="ZIP">Zip code</HeaderCellSort>
+                  <HeaderCellSort className="column-header" sortKey="FIST">Firstname</HeaderCellSort>
+                  <HeaderCellSort className="column-header" sortKey="LAST">Lastname</HeaderCellSort>
+                  <HeaderCellSort className="column-header" sortKey="START">StartDate</HeaderCellSort>
+                  <HeaderCellSort className="column-header" sortKey="DEPART">Department</HeaderCellSort>
+                  <HeaderCellSort className="column-header" sortKey="BIRTH">BirthDay</HeaderCellSort>
+                  <HeaderCellSort className="column-header" sortKey="STREET">Street</HeaderCellSort>
+                  <HeaderCellSort className="column-header" sortKey="CITY">City</HeaderCellSort>
+                  <HeaderCellSort className="column-header" sortKey="STATE">State</HeaderCellSort>
+                  <HeaderCellSort className="column-header" sortKey="ZIP">Zip code</HeaderCellSort>
+                  <HeaderCell className="column-header"></HeaderCell>
+
                 </HeaderRow>
               </Header>
               <Body>
@@ -102,6 +104,15 @@ export default function List({list}) {
                     <Cell>{item.city}</Cell>
                     <Cell>{item.state}</Cell>
                     <Cell>{item.zipCode}</Cell>
+                    <Cell>
+                      <button type="button" className="action-btn edit-btn">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                      </button>
+
+                      <button type="button" className="action-btn delete-btn">
+                        <i class="fa-solid fa-trash-can"></i>
+                      </button>
+                    </Cell>
                   </Row>
                 ))}
               </Body>
