@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { Table, Header, HeaderRow, HeaderCell, Body, Row, Cell } from '@table-library/react-table-library/table';
 import { useTheme } from '@table-library/react-table-library/theme';
 import { getTheme } from '@table-library/react-table-library/baseline';
@@ -7,10 +7,11 @@ import { usePagination } from '@table-library/react-table-library/pagination';
 import { HeaderCellSort, useSort } from '@table-library/react-table-library/sort';
 import './List.css';
 
-export default function List({list}) {
+export default function List() {
+  const list = useSelector((state)=>state.employee.list)
+  console.log(list)
   // Theme
   const theme = useTheme(getTheme());
-
   // Search
   const [search, setSearch] = useState('');
 
@@ -169,7 +170,3 @@ export default function List({list}) {
     </div>
   );
 }
-
-List.propTypes = {
-  list: PropTypes.array
-};

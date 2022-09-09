@@ -7,6 +7,7 @@ const employeeSlice = createSlice({
   },
   reducers: {
     getList: (state, action) => {
+      console.log('redux')
       return {
         ...state,
         list: action.payload.list,

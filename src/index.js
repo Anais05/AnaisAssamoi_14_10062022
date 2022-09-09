@@ -6,6 +6,7 @@ import { store } from "./redux/store.js";
 import Home from './pages/Home';
 import LogIn from './pages/LogIn';
 import Header from "./components/header/Header";
+import EmployeeForm from "./pages/EmployeeForm"
 import './index.css';
 
 const root =  ReactDOM.createRoot(document.getElementById('root'));
@@ -18,7 +19,7 @@ root.render(
         <Routes>
           <Route path="/" element={< Home />} />
           <Route path="/login" element={< LogIn />} />
-          <Route path="/employees-form"/>
+          <Route path="/employees-form" element={< EmployeeForm />}/>
         </Routes>
       </BrowserRouter>
     </React.StrictMode>

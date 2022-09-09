@@ -21,7 +21,9 @@ class api {
   async employeeList(){
     try {
       const response = await axios.get(this.baseUrl + '/employee-list')
-      localStorage.setItem('list',  JSON.stringify(response.data.body))
+      console.log(response)
+      localStorage.setItem('employees',  JSON.stringify(response.data.body))
+      console.log('api')
       return response;
     } catch (error) {
       console.error(error);

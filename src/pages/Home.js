@@ -8,18 +8,20 @@ import List from '../components/list/List'
 
 export default function Home() {
   const isLoggedIn = useSelector((state)=>state.login.isLogged)
-  const list = JSON.parse(localStorage.getItem('list'))
+  const employees = JSON.parse(localStorage.getItem('employees'))
 
   const dispatch = useDispatch()
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log('useeffect')
     getEmployeeList()
-    if (list) {
-      dispatch(getList({list: list}));
+    if (employees) {
+      console.log('1')
+      dispatch(getList({list: employees}));
+      console.log('2')
 		}
-
-	}, [list, dispatch])
+	}, [employees, dispatch])
 
   if(!isLoggedIn) {
     navigate('/login')
@@ -27,11 +29,12 @@ export default function Home() {
 
   async function getEmployeeList() {
     await api.employeeList();
+    console.log('call')
   }
 
   return (
     <main className="main">
-      <List list={list} />
+      <List />
     </main>
   );
 }

@@ -5,12 +5,9 @@ import { logout }from '../../redux/loginSlice';
 import Logo from '../../assets/logo.png';
 import './Header.css';
 
-
 export default function Header() {
   const isLoggedIn = useSelector((state)=>state.login.isLogged)
   const dispatch = useDispatch();
-
-  console.log(isLoggedIn)
 
   if(!isLoggedIn) {
    return
@@ -34,7 +31,7 @@ export default function Header() {
           })}>
           Liste
         </NavLink>
-        <NavLink to="/new" className="nav-link"
+        <NavLink to="/employees-form" className="nav-link"
           style={({ isActive }) => ({
             color: isActive ? '#2591CE' : '#ffffff', 
             backgroundColor:  isActive ? '#ffffff' : '#2591CE',
