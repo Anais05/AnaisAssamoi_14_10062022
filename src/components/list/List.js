@@ -68,7 +68,7 @@ export default function List() {
   const pagination = usePagination(data, {
     state: {
       page: 0,
-      size: 1,
+      size: 10,
     },
     onChange: onPaginationChange,
   });
@@ -77,7 +77,7 @@ export default function List() {
     console.log('here',action, state);
   }
 
-  const sizes = [1, 25, 50];
+  const sizes = [10, 25, 50];
 
   const handlePaginationChange = event => {
     pagination.fns.onSetSize(event.target.value)

@@ -27,19 +27,25 @@ class api {
     }
   }
 
-  // async create(){
-  //   try {
-  //     const response = await axios.post(this.baseUrl + '/create', {
-
-  //     })
-  //     console.log(response)
-  //     localStorage.setItem('employees',  JSON.stringify(response.data.body))
-  //     console.log('api')
-  //     return response;
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }
+  async create(employee){
+    try {
+      const response = await axios.post(this.baseUrl + '/create-employee', {
+        firstName :employee.firstName,
+        lastName :employee.lastName,
+        birthDay :employee.birthDay,
+        startDate :employee.startDate,
+        street :employee.street,
+        city :employee.city,
+        state :employee.state,
+        zipCode :employee.zipCode,
+        department :employee.department,
+      })
+      console.log(response)
+      return response;
+    } catch (error) {
+      console.error(error);
+    }
+  }
 }
 
 export default new api()

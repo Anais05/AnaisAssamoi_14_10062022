@@ -1,18 +1,22 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
+import api from "../../redux/ApiCalls";
 import Select from 'react-select'
 import './Form.css'
 
 export default function Form({edition}) {
+  const navigate = useNavigate();
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [street, setStreet] = useState('');
   const [city, setCity] = useState('');
   const [zipCode, setZipCode] = useState('');
-  const [birtday, setBirtday] = useState(new Date());
+  const [birthDay, setBirthDay] = useState(new Date());
   const [startDate, setStartDate] = useState(new Date());
-  const [selectedDepartment, setSelectedDepartment] = useState(null);
-  const [selectedState, setSelectedState] = useState(null);
+  const [selectedDepartment, setSelectedDepartment] = useState('');
+  const [selectedState, setSelectedState] = useState('');
 
   const departmentOption = [
     { value: 'Engineering', label: 'Engineering' },
@@ -37,8 +41,8 @@ export default function Form({edition}) {
     { label: "Hawaii", value: "Hawaii" },
     { label: "Iowa", value: "Iowa" },
     { label: "Idaho", value: "Idaho" },
-    { label: "IL", value: "Illinois" },
-    { label: "Illinois", value: "Indiana" },
+    { label: "Illinois", value: "Illinois" },
+    { label: "Indiana", value: "Indiana" },
     { label: "Kansas", value: "Kansas" },
     { label: "Kentucky", value: "Kentucky" },
     { label: "Louisiana", value: "Louisiana" },
@@ -76,7 +80,34 @@ export default function Form({edition}) {
     { label: "Wyoming", value: "Wyoming" },
   ]
 
-  async function handleSubmit() {
+  const formatDate = (date) => {
+    const day = (date.getDate()).toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`.toString();
+  };
+
+  const handleSubmit = async () => {
+    const employee = {
+      firstName : firstName,
+        lastName : lastName,
+        birthDay : formatDate(birthDay),
+        startDate : formatDate(startDate),
+        street : street,
+        city : city,
+        state : selectedState.value,
+        zipCode : zipCode,
+        department :selectedDepartment.value,
+      }
+    if (!edition) {
+      try {
+        api.create(employee)
+      } catch (error) {
+        console.log(error)
+      } finally {
+        navigate('/')
+      }
+    }
     console.log('submit')
   };
 
@@ -95,11 +126,29 @@ export default function Form({edition}) {
         </div>
         <div className="input-wrapper">
           <label htmlFor="birthday">Birthday</label>
-          <DatePicker dateFormat="dd/MM/yyyy" onChange={(date) => setBirtday(date)} setDate={birtday} placeholderText="Select birthday"/>
+          <DatePicker 
+            selected={birthDay}
+            dateFormat="dd/MM/yyyy" 
+            showMonthDropdown
+            useShortMonthInDropdown
+            showYearDropdown
+            dropdownMode="select" 
+            onChange={(date) => setBirthDay(date)} 
+            placeholderText="Select birthday"
+          />
         </div>
         <div className="input-wrapper">
           <label htmlFor="lastname">Start Date</label>
-          <DatePicker dateFormat="dd/MM/yyyy" onChange={(date) => setStartDate(date)} setDate={startDate} required={true} placeholderText="Select start date"/>
+          <DatePicker 
+            selected={startDate} 
+            dateFormat="dd/MM/yyyy" 
+            showMonthDropdown
+            useShortMonthInDropdown
+            showYearDropdown
+            dropdownMode="select"
+            onChange={(date) => setStartDate(date)} 
+            placeholderText="Select start date"
+          />
         </div>
         <div className="input-wrapper">
           <label htmlFor="street">Street</label>
@@ -107,19 +156,19 @@ export default function Form({edition}) {
         </div>
         <div className="input-wrapper">
           <label htmlFor="city">City</label>
-          <input type="text" id="city"  value={city} onChange={(e) => {setCity(e.target.value)}}/>
+          <input type="text" id="city" value={city} onChange={(e) => {setCity(e.target.value)}}/>
         </div>
         <div className="input-wrapper">
           <label htmlFor="firstname">State</label>
-          <Select  defaultValue={selectedState} onChange={setSelectedState} options={statesOption} />
+          <Select defaultValue={selectedState} onChange={setSelectedState} options={statesOption} />
         </div>
         <div className="input-wrapper">
           <label htmlFor="zipcode">Zip Code</label>
-          <input type="text" id="zipcode"  value={zipCode} onChange={(e) => {setZipCode(e.target.value)}}/>
+          <input type="text" id="zipcode" value={zipCode} onChange={(e) => {setZipCode(e.target.value)}}/>
         </div>
         <div className="input-wrapper">
           <label htmlFor="department">Department</label>
-          <Select  defaultValue={selectedDepartment} onChange={setSelectedDepartment} options={departmentOption} />
+          <Select defaultValue={selectedDepartment} onChange={setSelectedDepartment} options={departmentOption} />
         </div>
         <button className="create-button bg-dark">Create</button>
       </form>
