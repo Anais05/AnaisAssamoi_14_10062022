@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from "react";
+import api from "../../redux/ApiCalls";
 import { Table, Header, HeaderRow, HeaderCell, Body, Row, Cell } from '@table-library/react-table-library/table';
 import { useTheme } from '@table-library/react-table-library/theme';
 import { getTheme } from '@table-library/react-table-library/baseline';
@@ -8,10 +8,21 @@ import { HeaderCellSort, useSort } from '@table-library/react-table-library/sort
 import './List.css';
 
 export default function List() {
-  const list = useSelector((state)=>state.employee.list)
-  console.log(list)
+  const [list, setList] = useState([]);
+
+  useEffect(() => {
+    const getList = async () => {
+      const resp = await api.employeeList();
+      const data =  resp.data.body
+      setList(data)
+    }
+    getList().catch(console.error)
+	}, [])
+
+  
   // Theme
   const theme = useTheme(getTheme());
+
   // Search
   const [search, setSearch] = useState('');
 
@@ -22,6 +33,7 @@ export default function List() {
   const data = {
     nodes: list.filter((item) => item.firstName.toLowerCase().includes(search.toLowerCase())),
   };
+
 
   // Sort
   const sort = useSort(
@@ -56,16 +68,24 @@ export default function List() {
   const pagination = usePagination(data, {
     state: {
       page: 0,
-      size: 10,
+      size: 1,
     },
     onChange: onPaginationChange,
   });
 
   function onPaginationChange(action, state) {
-    console.log(action, state);
+    console.log('here',action, state);
   }
 
-  const sizes = [10, 25, 50];
+  const sizes = [1, 25, 50];
+
+  const handlePaginationChange = event => {
+    pagination.fns.onSetSize(event.target.value)
+  };
+
+  if(list === []) {
+    return;
+  } 
 
   return (
     <div className="list">
@@ -95,7 +115,7 @@ export default function List() {
               </Header>
               <Body>
                 {tableList.map((item) => (
-                  <Row key={item.id} item={item}>
+                  <Row item={item}>
                     <Cell>{item.firstName}</Cell>
                     <Cell>{item.lastName}</Cell>
                     <Cell>{item.startDate}</Cell>
@@ -107,11 +127,11 @@ export default function List() {
                     <Cell>{item.zipCode}</Cell>
                     <Cell>
                       <button type="button" className="action-btn edit-btn">
-                        <i class="fa-solid fa-pen-to-square"></i>
+                        <i className="fa-solid fa-pen-to-square"></i>
                       </button>
 
                       <button type="button" className="action-btn delete-btn">
-                        <i class="fa-solid fa-trash-can"></i>
+                        <i className="fa-solid fa-trash-can"></i>
                       </button>
                     </Cell>
                   </Row>
@@ -123,30 +143,12 @@ export default function List() {
 
         <div className="pagination">
           <span>
-          taille de la page:{' '}
-            {sizes.map((size) => (
-              <button
-                className="pagination-btn"
-                key={size}
-                type="button"
-                style={{
-                  fontWeight: pagination.state.size === size ? 'bold' : 'normal',
-                }}
-                onClick={() => pagination.fns.onSetSize(size)}
-              >
-                {size}
-              </button>
-            ))}
-            <button
-              className="pagination-btn"
-              type="button"
-              style={{
-                fontWeight: pagination.state.size === data.nodes.length ? 'bold' : 'normal',
-              }}
-              onClick={() => pagination.fns.onSetSize(data.nodes.length)}
-            >
-              tout
-            </button>
+            page size:{' '}
+            <select onChange={handlePaginationChange}>
+              {sizes.map((size) => (
+                <option key={size} value={size}>{size}</option>
+              ))}
+            </select>
           </span>
 
           <span>

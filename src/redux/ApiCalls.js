@@ -21,14 +21,25 @@ class api {
   async employeeList(){
     try {
       const response = await axios.get(this.baseUrl + '/employee-list')
-      console.log(response)
-      localStorage.setItem('employees',  JSON.stringify(response.data.body))
-      console.log('api')
       return response;
     } catch (error) {
       console.error(error);
     }
   }
+
+  // async create(){
+  //   try {
+  //     const response = await axios.post(this.baseUrl + '/create', {
+
+  //     })
+  //     console.log(response)
+  //     localStorage.setItem('employees',  JSON.stringify(response.data.body))
+  //     console.log('api')
+  //     return response;
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }
 }
 
 export default new api()
