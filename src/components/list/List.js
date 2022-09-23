@@ -13,13 +13,14 @@ export default function List() {
   useEffect(() => {
     const getList = async () => {
       const resp = await api.employeeList();
-      const data =  resp.data.body
-      setList(data)
+      const data =  resp.data.body;
+      setList(data);
     }
-    getList().catch(console.error)
-	}, [])
 
-  
+    getList().catch(console.error);
+    
+	}, [list])
+
   // Theme
   const theme = useTheme(getTheme());
 
@@ -31,9 +32,13 @@ export default function List() {
   };
 
   const data = {
-    nodes: list.filter((item) => item.firstName.toLowerCase().includes(search.toLowerCase())),
+    nodes: list.filter(item => {
+      const fullName = `${item.firstName}${item.lastName}`.toLowerCase();
+      const reversedFullName = `${item.lastName}${item.firstName}`.toLowerCase();
+      const trimmedSearchValue = search.replace(/\s+/g, '').toLowerCase();
+      return fullName.includes(trimmedSearchValue) || reversedFullName.includes(trimmedSearchValue);
+    }),
   };
-
 
   // Sort
   const sort = useSort(
@@ -83,6 +88,13 @@ export default function List() {
     pagination.fns.onSetSize(event.target.value)
   };
 
+  // Action
+
+  async function handleDelete(id) {
+    await api.delete(id)
+    setList(list.filter((item) => item.id !== id))
+  };
+
   if(list === []) {
     return;
   } 
@@ -110,7 +122,6 @@ export default function List() {
                   <HeaderCellSort className="column-header" sortKey="STATE">State</HeaderCellSort>
                   <HeaderCellSort className="column-header" sortKey="ZIP">Zip code</HeaderCellSort>
                   <HeaderCell className="column-header"></HeaderCell>
-
                 </HeaderRow>
               </Header>
               <Body>
@@ -130,7 +141,7 @@ export default function List() {
                         <i className="fa-solid fa-pen-to-square"></i>
                       </button>
 
-                      <button type="button" className="action-btn delete-btn">
+                      <button type="button" className="action-btn delete-btn" onClick={() => handleDelete(item._id)}>
                         <i className="fa-solid fa-trash-can"></i>
                       </button>
                     </Cell>

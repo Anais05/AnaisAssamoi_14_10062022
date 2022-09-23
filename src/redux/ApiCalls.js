@@ -46,6 +46,15 @@ class api {
       console.error(error);
     }
   }
+
+  async delete(id){
+    try {
+      const response = await axios.delete(this.baseUrl + `/delete-employee/${id}`)
+      return response;
+    } catch (error) {
+      console.error(error);
+    }
+  }
 }
 
 export default new api()

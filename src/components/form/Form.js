@@ -101,7 +101,7 @@ export default function Form({edition}) {
       }
     if (!edition) {
       try {
-        api.create(employee)
+        await api.create(employee)
       } catch (error) {
         console.log(error)
       } finally {
