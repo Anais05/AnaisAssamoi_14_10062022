@@ -1,22 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, } from "react";
 import { useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import api from "../../redux/ApiCalls";
 import Select from 'react-select'
 import './Form.css'
+import { useSelector } from 'react-redux';
 
-export default function Form({edition}) {
+
+export default function Form() {
+  let edition;
+  const employeeToEdit = useSelector((state)=>state.employee.employee);
+
   const navigate = useNavigate();
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [street, setStreet] = useState('');
-  const [city, setCity] = useState('');
-  const [zipCode, setZipCode] = useState('');
-  const [birthDay, setBirthDay] = useState(new Date());
-  const [startDate, setStartDate] = useState(new Date());
-  const [selectedDepartment, setSelectedDepartment] = useState('');
-  const [selectedState, setSelectedState] = useState('');
+  const [firstName, setFirstName] = useState(employeeToEdit  ? employeeToEdit.firstName : '');
+  const [lastName, setLastName] = useState(employeeToEdit  ? employeeToEdit.lastName : '');
+  const [street, setStreet] = useState(employeeToEdit  ? employeeToEdit.street : '');
+  const [city, setCity] = useState(employeeToEdit  ? employeeToEdit.city : '');
+  const [zipCode, setZipCode] = useState(employeeToEdit  ? employeeToEdit.zipCode : '');
+  const [birthDay, setBirthDay] = useState(employeeToEdit  ? null : null);
+  const [startDate, setStartDate] = useState(employeeToEdit  ? null :null);
+  const [selectedDepartment, setSelectedDepartment] = useState(employeeToEdit  ? employeeToEdit.department : '');
+  const [selectedState, setSelectedState] = useState(employeeToEdit  ?  { value: employeeToEdit.state, label: employeeToEdit.state } : '');
+
+  if(employeeToEdit) {
+    edition = true;
+  }
+
+  console.log(selectedState)
 
   const departmentOption = [
     { value: 'Engineering', label: 'Engineering' },
@@ -98,16 +109,20 @@ export default function Form({edition}) {
         state : selectedState.value,
         zipCode : zipCode,
         department :selectedDepartment.value,
-      }
-    if (!edition) {
-      try {
-        await api.create(employee)
-      } catch (error) {
-        console.log(error)
-      } finally {
-        navigate('/')
-      }
     }
+      
+    try {
+      if (edition) {
+        console.log('edit')
+        await api.update(employee);
+      }
+      await api.create(employee)
+    } catch (error) {
+      console.log(error)
+    } 
+    // finally {
+    //   navigate('/')
+    // }
     console.log('submit')
   };
 
@@ -118,11 +133,11 @@ export default function Form({edition}) {
       <form onSubmit={handleSubmit}>
         <div className="input-wrapper">
           <label htmlFor="firstname">First Name</label>
-          <input type="text" id="firstname" value={firstName}  onChange={(e) => {setFirstName(e.target.value)}}/>
+          <input type="text" id="firstname" value={firstName}  onChange={(e) => {setFirstName(e.target.value)}} required/>
         </div>
         <div className="input-wrapper">
           <label htmlFor="lastname">Last Name</label>
-          <input type="text" id="lastname" value={lastName} onChange={(e) => {setLastName(e.target.value)}}/>
+          <input type="text" id="lastname" value={lastName} onChange={(e) => {setLastName(e.target.value)}} required/>
         </div>
         <div className="input-wrapper">
           <label htmlFor="birthday">Birthday</label>
@@ -168,9 +183,9 @@ export default function Form({edition}) {
         </div>
         <div className="input-wrapper">
           <label htmlFor="department">Department</label>
-          <Select defaultValue={selectedDepartment} onChange={setSelectedDepartment} options={departmentOption} />
+          <Select defaultValue={selectedDepartment} setValue = {selectedDepartment} onChange={setSelectedDepartment} options={departmentOption} />
         </div>
-        <button className="create-button bg-dark">Create</button>
+        <button className="create-button bg-dark">{edition ? 'Update' : 'Create'}</button>
       </form>
     </div>
   );

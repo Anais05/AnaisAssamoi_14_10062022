@@ -47,6 +47,26 @@ class api {
     }
   }
 
+  async update(employee){
+    try {
+      const response = await axios.put(this.baseUrl + '/edit-employee', {
+        firstName :employee.firstName,
+        lastName :employee.lastName,
+        birthDay :employee.birthDay,
+        startDate :employee.startDate,
+        street :employee.street,
+        city :employee.city,
+        state :employee.state,
+        zipCode :employee.zipCode,
+        department :employee.department,
+      })
+      console.log('here')
+      return response;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   async delete(id){
     try {
       const response = await axios.delete(this.baseUrl + `/delete-employee/${id}`)

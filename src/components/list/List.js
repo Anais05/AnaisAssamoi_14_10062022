@@ -5,10 +5,17 @@ import { useTheme } from '@table-library/react-table-library/theme';
 import { getTheme } from '@table-library/react-table-library/baseline';
 import { usePagination } from '@table-library/react-table-library/pagination';
 import { HeaderCellSort, useSort } from '@table-library/react-table-library/sort';
+import { useNavigate } from "react-router-dom";
+import { useSelector,useDispatch } from 'react-redux';
+import { getEmployee } from "../../redux/employeeSlice";
+
+
 import './List.css';
 
 export default function List() {
   const [list, setList] = useState([]);
+  const navigate = useNavigate();
+  const dispatch = useDispatch()
 
   useEffect(() => {
     const getList = async () => {
@@ -17,9 +24,10 @@ export default function List() {
       setList(data);
     }
 
-    getList().catch(console.error);
-    
+    getList().catch(console.error);    
 	}, [list])
+
+  dispatch(getEmployee({employee: null}));
 
   // Theme
   const theme = useTheme(getTheme());
@@ -95,6 +103,11 @@ export default function List() {
     setList(list.filter((item) => item.id !== id))
   };
 
+  function onEditBtn(item) {
+    dispatch(getEmployee({employee: item}));
+    navigate('/employees-form')
+  }
+
   if(list === []) {
     return;
   } 
@@ -137,7 +150,7 @@ export default function List() {
                     <Cell>{item.state}</Cell>
                     <Cell>{item.zipCode}</Cell>
                     <Cell>
-                      <button type="button" className="action-btn edit-btn">
+                      <button type="button" className="action-btn edit-btn" onClick={() => onEditBtn(item)}>
                         <i className="fa-solid fa-pen-to-square"></i>
                       </button>
 
