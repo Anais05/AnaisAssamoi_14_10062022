@@ -6,10 +6,8 @@ import { getTheme } from '@table-library/react-table-library/baseline';
 import { usePagination } from '@table-library/react-table-library/pagination';
 import { HeaderCellSort, useSort } from '@table-library/react-table-library/sort';
 import { useNavigate } from "react-router-dom";
-import { useSelector,useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { getEmployee } from "../../redux/employeeSlice";
-
-
 import './List.css';
 
 export default function List() {
@@ -17,15 +15,15 @@ export default function List() {
   const navigate = useNavigate();
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    const getList = async () => {
-      const resp = await api.employeeList();
-      const data =  resp.data.body;
-      setList(data);
-    }
+  async function getList() {
+    const resp = await api.employeeList();
+    const data =  resp.data.body;
+    setList(data);
+  }
 
+  useEffect(() => {
     getList().catch(console.error);    
-	}, [list])
+	}, [])
 
   dispatch(getEmployee({employee: null}));
 
@@ -96,11 +94,20 @@ export default function List() {
     pagination.fns.onSetSize(event.target.value)
   };
 
+  const formatDate = (date) => {
+    console.log(date)
+    const newDate = new Date(date)
+    const day = (newDate.getDate()).toString().padStart(2, '0');
+    const month = (newDate.getMonth() + 1).toString().padStart(2, '0');
+    const year = newDate.getFullYear();
+    return `${day}/${month}/${year}`.toString();
+  };
+
   // Action
 
   async function handleDelete(id) {
     await api.delete(id)
-    setList(list.filter((item) => item.id !== id))
+    getList();
   };
 
   function onEditBtn(item) {
@@ -139,12 +146,12 @@ export default function List() {
               </Header>
               <Body>
                 {tableList.map((item) => (
-                  <Row item={item}>
+                  <Row key={item.id + item.lastName} item={item}>
                     <Cell>{item.firstName}</Cell>
                     <Cell>{item.lastName}</Cell>
-                    <Cell>{item.startDate}</Cell>
+                    <Cell>{formatDate(item.startDate)}</Cell>
                     <Cell>{item.department}</Cell>
-                    <Cell>{item.birthDay}</Cell>
+                    <Cell>{formatDate(item.birthDay)}</Cell>
                     <Cell>{item.street}</Cell>
                     <Cell>{item.city}</Cell>
                     <Cell>{item.state}</Cell>

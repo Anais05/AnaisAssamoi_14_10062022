@@ -4,8 +4,8 @@ import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import api from "../../redux/ApiCalls";
 import Select from 'react-select'
-import './Form.css'
 import { useSelector } from 'react-redux';
+import './Form.css'
 
 
 export default function Form() {
@@ -18,111 +18,105 @@ export default function Form() {
   const [street, setStreet] = useState(employeeToEdit  ? employeeToEdit.street : '');
   const [city, setCity] = useState(employeeToEdit  ? employeeToEdit.city : '');
   const [zipCode, setZipCode] = useState(employeeToEdit  ? employeeToEdit.zipCode : '');
-  const [birthDay, setBirthDay] = useState(employeeToEdit  ? null : null);
-  const [startDate, setStartDate] = useState(employeeToEdit  ? null :null);
-  const [selectedDepartment, setSelectedDepartment] = useState(employeeToEdit  ? employeeToEdit.department : '');
-  const [selectedState, setSelectedState] = useState(employeeToEdit  ?  { value: employeeToEdit.state, label: employeeToEdit.state } : '');
+  const [birthDay, setBirthDay] = useState(employeeToEdit  ? new Date(employeeToEdit.birthDay) : null);
+  const [startDate, setStartDate] = useState(employeeToEdit  ? new Date(employeeToEdit.startDate) :null);
+  const [selectedDepartment, setSelectedDepartment] = useState(employeeToEdit  ? { value: employeeToEdit.department, label: employeeToEdit.department} : '');
+  const [selectedState, setSelectedState] = useState(employeeToEdit  ?  { value: employeeToEdit.stateAb, label: employeeToEdit.state } : '');
 
   if(employeeToEdit) {
     edition = true;
   }
 
-  console.log(selectedState)
-
   const departmentOption = [
     { value: 'Engineering', label: 'Engineering' },
-    { value: 'Human Resources', label: 'Human Resources' },
+    { value: 'Resources', label: 'Human Resources' },
     { value: 'Legal', label: 'Legal' },
     { value: 'Marketing', label: 'Marketing' },
     { value: 'Sales', label: 'Sales' },
   ]
 
   const statesOption = [
-    { label: "Alaska", value: "Alaska" },
-    { label: "Alabama", value: "Alabama" },
-    { label: "Arkansas", value: "Arkansas" },
-    { label: "Arizona", value: "Arizona" },
-    { label: "California", value: "California" },
-    { label: "Colorado", value: "Colorado" },
-    { label: "Connecticut", value: "Connecticut" },
-    { label: "District of Columbia", value: "District of Columbia" },
-    { label: "Delaware", value: "Delaware" },
-    { label: "Florida", value: "Florida" },
-    { label: "Georgia", value: "Georgia" },
-    { label: "Hawaii", value: "Hawaii" },
-    { label: "Iowa", value: "Iowa" },
-    { label: "Idaho", value: "Idaho" },
-    { label: "Illinois", value: "Illinois" },
-    { label: "Indiana", value: "Indiana" },
-    { label: "Kansas", value: "Kansas" },
-    { label: "Kentucky", value: "Kentucky" },
-    { label: "Louisiana", value: "Louisiana" },
-    { label: "Massachusetts", value: "Massachusetts" },
-    { label: "Maryland", value: "Maryland" },
-    { label: "Maine", value: "Maine" },
-    { label: "Michigan", value: "Michigan" },
-    { label: "Minnesota", value: "Minnesota" },
-    { label: "Missouri", value: "Missouri" },
-    { label: "Mississippi", value: "Mississippi" },
-    { label: "Montana", value: "Montana" },
-    { label: "North Carolina", value: "North Carolina" },
-    { label: "North Dakota", value: "North Dakota" },
-    { label: "Nebraska", value: "Nebraska" },
-    { label: "New Hampshire", value: "New Hampshire" },
-    { label: "New Jersey", value: "New Jersey" },
-    { label: "New Mexico", value: "New Mexico" },
-    { label: "Nevada", value: "Nevada" },
-    { label: "New York", value: "NewYork" },
-    { label: "Ohio", value: "Ohio" },
-    { label: "Oklahoma", value: "Oklahoma" },
-    { label: "Oregon", value: "Oregon" },
-    { label: "Pennsylvania", value: "Pennsylvania" },
-    { label: "Rhode Island", value: "Rhode Island" },
-    { label: "South Carolina", value: "South Carolina" },
-    { label: "South Dakota", value: "South Dakota" },
-    { label: "Tennessee", value: "Tennessee" },
-    { label: "Texas", value: "Texas" },
-    { label: "Utah", value: "Utah" },
-    { label: "Virginia", value: "Virginia" },
-    { label: "Vermont", value: "Vermont" },
-    { label: "Washington", value: "Washington" },
-    { label: "Wisconsin", value: "Wisconsin" },
-    { label: "West Virginia", value: "West Virginia" },
-    { label: "Wyoming", value: "Wyoming" },
+    { value: 'AK', label: 'Alaska'},
+    { value: 'TX', label: 'Texas'},
+    { value: 'AL', label: 'Alabama'},
+    { value: 'AR', label: 'Arkansas'},
+    { value: 'AZ', label: 'Arizona'},
+    { value: 'CA', label: 'California'},
+    { value: 'CO', label: 'Colorado'},
+    { value: 'CT', label: 'Connecticut'},
+    { value: 'DC', label: 'District of Columbia'},
+    { value: 'DE', label: 'Delaware'},
+    { value: 'FL', label: 'Florida'},
+    { value: 'GA', label: 'Georgia'},
+    { value: 'HI', label: 'Hawaii'},
+    { value: 'IA', label: 'Iowa'},
+    { value: 'ID', label: 'Idaho'},
+    { value: 'IL', label: 'Illinois'},
+    { value: 'IN', label: 'Indiana'},
+    { value: 'KS', label: 'Kansas'},
+    { value: 'KY', label: 'Kentucky'},
+    { value: 'LA', label: 'Louisiana'},
+    { value: 'MA', label: 'Massachusetts'},
+    { value: 'MD', label: 'Maryland'},
+    { value: 'ME', label: 'Maine'},
+    { value: 'MI', label: 'Michigan'},
+    { value: 'MN', label: 'Minnesota'},
+    { value: 'MO', label: 'Missouri'},
+    { value: 'MS', label: 'Mississippi'},
+    { value: 'MT', label: 'Montana'},
+    { value: 'NC', label: 'North Carolina'},
+    { value: 'ND', label: 'North Dakota'},
+    { value: 'NE', label: 'Nebraska'},
+    { value: 'NH', label: 'New Hampshire'},
+    { value: 'NJ', label: 'New Jersey'},
+    { value: 'NM', label: 'New Mexico'},
+    { value: 'NV', label: 'Nevada'},
+    { value: 'NY', label: 'NewYork'},
+    { value: 'OH', label: 'Ohio'},
+    { value: 'OK', label: 'Oklahoma'},
+    { value: 'OR', label: 'Oregon'},
+    { value: 'PA', label: 'Pennsylvania'},
+    { value: 'RI', label: 'Rhode Island'},
+    { value: 'SC', label: 'South Carolina'},
+    { value: 'SD', label: 'South Dakota'},
+    { value: 'TN', label: 'Tennessee'},
+    { value: 'TX', label: 'Texas'},
+    { value: 'UT', label: 'Utah'},
+    { value: 'VA', label: 'Virginia'},
+    { value: 'VT', label: 'Vermont'},
+    { value: 'WA', label: 'Washington'},
+    { value: 'WI', label: 'Wisconsin'},
+    { value: 'WV', label: 'West Virginia'},
+    { value: 'WY', label: 'Wyoming'}
   ]
-
-  const formatDate = (date) => {
-    const day = (date.getDate()).toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year = date.getFullYear();
-    return `${day}/${month}/${year}`.toString();
-  };
 
   const handleSubmit = async () => {
     const employee = {
       firstName : firstName,
-        lastName : lastName,
-        birthDay : formatDate(birthDay),
-        startDate : formatDate(startDate),
-        street : street,
-        city : city,
-        state : selectedState.value,
-        zipCode : zipCode,
-        department :selectedDepartment.value,
+      lastName : lastName,
+      birthDay : birthDay,
+      startDate : startDate,
+      street : street,
+      city : city,
+      state : selectedState.label,
+      stateAb: selectedState.value,
+      zipCode : zipCode,
+      department :selectedDepartment.value,
     }
       
     try {
       if (edition) {
         console.log('edit')
         await api.update(employee);
+      } else {
+        await api.create(employee)
       }
-      await api.create(employee)
     } catch (error) {
       console.log(error)
     } 
-    // finally {
-    //   navigate('/')
-    // }
+    finally {
+      navigate('/')
+    }
     console.log('submit')
   };
 

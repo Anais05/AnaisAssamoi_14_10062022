@@ -30,15 +30,16 @@ class api {
   async create(employee){
     try {
       const response = await axios.post(this.baseUrl + '/create-employee', {
-        firstName :employee.firstName,
-        lastName :employee.lastName,
-        birthDay :employee.birthDay,
-        startDate :employee.startDate,
-        street :employee.street,
-        city :employee.city,
-        state :employee.state,
-        zipCode :employee.zipCode,
-        department :employee.department,
+        firstName: employee.firstName,
+        lastName: employee.lastName,
+        birthDay: employee.birthDay,
+        startDate: employee.startDate,
+        street: employee.street,
+        city: employee.city,
+        state: employee.state,
+        stateAb: employee.stateAb,
+        zipCode: employee.zipCode,
+        department: employee.department,
       })
       console.log(response)
       return response;
@@ -57,6 +58,7 @@ class api {
         street :employee.street,
         city :employee.city,
         state :employee.state,
+        stateAb: employee.stateAb,
         zipCode :employee.zipCode,
         department :employee.department,
       })
