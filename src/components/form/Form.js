@@ -7,7 +7,6 @@ import Select from 'react-select'
 import { useSelector } from 'react-redux';
 import './Form.css'
 
-
 export default function Form() {
   let edition;
   const employeeToEdit = useSelector((state)=>state.employee.employee);
@@ -29,7 +28,7 @@ export default function Form() {
 
   const departmentOption = [
     { value: 'Engineering', label: 'Engineering' },
-    { value: 'Resources', label: 'Human Resources' },
+    { value: 'Human-resources', label: 'Human Resources' },
     { value: 'Legal', label: 'Legal' },
     { value: 'Marketing', label: 'Marketing' },
     { value: 'Sales', label: 'Sales' },
@@ -106,7 +105,7 @@ export default function Form() {
       
     try {
       if (edition) {
-        console.log('edit')
+        employee.id = employeeToEdit._id
         await api.update(employee);
       } else {
         await api.create(employee)
@@ -117,7 +116,6 @@ export default function Form() {
     finally {
       navigate('/')
     }
-    console.log('submit')
   };
 
   return (

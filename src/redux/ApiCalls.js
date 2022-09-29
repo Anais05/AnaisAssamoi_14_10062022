@@ -50,7 +50,7 @@ class api {
 
   async update(employee){
     try {
-      const response = await axios.put(this.baseUrl + '/edit-employee', {
+      const response = await axios.put(this.baseUrl + `/edit-employee/${employee.id}`, {
         firstName :employee.firstName,
         lastName :employee.lastName,
         birthDay :employee.birthDay,
@@ -62,7 +62,6 @@ class api {
         zipCode :employee.zipCode,
         department :employee.department,
       })
-      console.log('here')
       return response;
     } catch (error) {
       console.error(error);
