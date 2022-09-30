@@ -16,6 +16,12 @@ export default function Form() {
   const navigate = useNavigate();
   const dispatch = useDispatch()
 
+  const ModalContent = edition ? "Successfully updated employee !" : "Successfully created employee !";
+  const myTheme = {
+    closeBtnColor: "#ffffff",
+    closeBtnBgColor: "#2591CE",
+  };
+
   const [firstName, setFirstName] = useState(employeeToEdit  ? employeeToEdit.firstName : '');
   const [lastName, setLastName] = useState(employeeToEdit  ? employeeToEdit.lastName : '');
   const [street, setStreet] = useState(employeeToEdit  ? employeeToEdit.street : '');
@@ -94,7 +100,6 @@ export default function Form() {
     { value: 'WY', label: 'Wyoming'}
   ]
 
-  console.log('modal', modalOpen)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -117,8 +122,6 @@ export default function Form() {
         await api.update(employee);
       } else {
         await api.create(employee)
-        setModalOpen(true)
-
       }
     } catch (error) {
       console.log(error)
@@ -130,12 +133,6 @@ export default function Form() {
     dispatch(getEmployee({employee: null}));
     setModalOpen(false)
     navigate('/')
-  };
-
-  const ModalContent = edition ? "Successfully updated employee" : "Successfully created employee";
-  const myTheme = {
-    closeBtnColor: "#ffffff",
-    closeBtnBgColor: "#2591CE",
   };
 
   const onCancelBtn = () => {

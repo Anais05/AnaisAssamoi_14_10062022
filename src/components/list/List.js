@@ -8,12 +8,21 @@ import { HeaderCellSort, useSort } from '@table-library/react-table-library/sort
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import { getEmployee } from "../../redux/employeeSlice";
+import { Modal } from "simple-react-modal-by-assamoi";
 import './List.css';
 
 export default function List() {
   const [list, setList] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
+
   const navigate = useNavigate();
   const dispatch = useDispatch()
+
+  const ModalContent = "Successfully deleted employee !";
+  const myTheme = {
+    closeBtnColor: "#ffffff",
+    closeBtnBgColor: "#2591CE",
+  };
 
   async function getList() {
     const resp = await api.employeeList();
@@ -103,7 +112,6 @@ export default function List() {
   // Action
 
   function onCreateBtn() {
-    console.log('here create')
     navigate('/employees-form')
   };
 
@@ -114,7 +122,8 @@ export default function List() {
 
   async function handleDelete(id) {
     await api.delete(id)
-    getList();
+    setModalOpen(true)
+    getList()
   };
 
   if(list === []) {
@@ -140,7 +149,7 @@ export default function List() {
             <>
               <Header>
                 <HeaderRow>
-                  <HeaderCellSort className="column-header" sortKey="FIST">Firstname</HeaderCellSort>
+                  <HeaderCellSort className="column-header" sortKey="FIRST">Firstname</HeaderCellSort>
                   <HeaderCellSort className="column-header" sortKey="LAST">Lastname</HeaderCellSort>
                   <HeaderCellSort className="column-header" sortKey="START">StartDate</HeaderCellSort>
                   <HeaderCellSort className="column-header" sortKey="DEPART">Department</HeaderCellSort>
@@ -154,7 +163,7 @@ export default function List() {
               </Header>
               <Body>
                 {tableList.map((item) => (
-                  <Row key={item.id + item.lastName} item={item}>
+                  <Row key={item._id} item={item}>
                     <Cell>{item.firstName}</Cell>
                     <Cell>{item.lastName}</Cell>
                     <Cell>{formatDate(item.startDate)}</Cell>
@@ -208,6 +217,12 @@ export default function List() {
           </span>
         </div>
       </div>
+      <Modal 
+        open={modalOpen}
+        content={ModalContent}
+        theme={myTheme}
+        onClose={() => setModalOpen(false)} 
+      />
     </div>
   );
 }

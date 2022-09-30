@@ -41,7 +41,6 @@ class api {
         zipCode: employee.zipCode,
         department: employee.department,
       })
-      console.log(response)
       return response;
     } catch (error) {
       console.error(error);
