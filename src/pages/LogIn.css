@@ -35,14 +35,7 @@
 }
 
 .log-in-button {
-  display: block;
-  padding: 10px 20px;
   margin: auto;
   margin-top: 2rem;
-  font-size: 1.1rem;
-  font-weight: bold;
-  border-color: transparent;
-  border-radius: 5px;
   background-color: #00bc77;
-  color: #fff;
 }

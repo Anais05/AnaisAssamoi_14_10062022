@@ -8,22 +8,32 @@
 .list-title {
   font-size: 25px;
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 40px;
 }
 
-.list-table {
+.list-table-header, .list-table {
   width: 95%;
   margin: auto;
 }
 
-.list-search {
+.list-table-header {
   display: flex;
-  justify-content: flex-end;
-  margin-bottom: 50px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 75px;
+}
+
+.add-btn {
+  background-color: #2591CE;
+}
+
+.add-icon {
+  margin-right: 10px;
 }
 
 .list-search #search {
   margin-left: 15px;
+  height: 30px;
 }
 
 .action-btn {

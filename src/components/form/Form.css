@@ -14,18 +14,27 @@ form {
   display: flex;
   flex-direction: column;
   text-align: left;
-  margin: 20px;
+  margin: 35px 0;
+}
+
+.date-input-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.date-input-wrapper .input-wrapper {
+  margin: unset;
+}
+
+.btn-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 60px;
 }
 
 .create-button {
-  display: block;
-  padding: 10px 20px;
-  margin: auto;
-  margin-top: 2rem;
-  font-size: 1.1rem;
-  font-weight: bold;
-  border-color: transparent;
-  border-radius: 5px;
   background-color: #2591CE;
-  color: #fff;
+  margin-left: 50px;
 }

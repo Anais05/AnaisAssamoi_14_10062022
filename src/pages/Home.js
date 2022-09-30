@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect} from "react";
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import List from '../components/list/List'
@@ -8,9 +8,11 @@ export default function Home() {
 
   const navigate = useNavigate();
 
-  if(!isLoggedIn) {
-    navigate('/login')
-  }
+  useEffect(() => {
+		if (!isLoggedIn) {
+			navigate('/login')
+		}
+	}, [isLoggedIn, navigate])
 
   return (
     <main className="main">

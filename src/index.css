@@ -7,5 +7,22 @@ body {
 }
 
 .bg-dark {
-  background-color: #2591CE;
+  display: block;
+  padding: 10px 20px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-color: transparent;
+  border-radius: 5px;
+  color: #fff;
+}
+
+.bg-light {
+  display: block;
+  padding: 10px 20px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-color: transparent;
+  border-radius: 5px;
+  color: #000;
+  background-color: #ebebeb;
 }

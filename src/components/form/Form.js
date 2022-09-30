@@ -5,6 +5,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import api from "../../redux/ApiCalls";
 import Select from 'react-select'
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { getEmployee } from "../../redux/employeeSlice";
 import './Form.css'
 
 export default function Form() {
@@ -12,6 +14,8 @@ export default function Form() {
   const employeeToEdit = useSelector((state)=>state.employee.employee);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch()
+
   const [firstName, setFirstName] = useState(employeeToEdit  ? employeeToEdit.firstName : '');
   const [lastName, setLastName] = useState(employeeToEdit  ? employeeToEdit.lastName : '');
   const [street, setStreet] = useState(employeeToEdit  ? employeeToEdit.street : '');
@@ -36,7 +40,6 @@ export default function Form() {
 
   const statesOption = [
     { value: 'AK', label: 'Alaska'},
-    { value: 'TX', label: 'Texas'},
     { value: 'AL', label: 'Alabama'},
     { value: 'AR', label: 'Arkansas'},
     { value: 'AZ', label: 'Arizona'},
@@ -118,66 +121,78 @@ export default function Form() {
     }
   };
 
+  const onCancelBtn = () => {
+    dispatch(getEmployee({employee: null}));
+    navigate('/')
+  };
+
   return (
     <div className="form">
-      <h1 className="list-title">{edition ? 'Modifier un employé' : 'Créer un employé'}</h1>
+      <h1 className="list-title">{edition ? 'Update employee' : 'Create employee'}</h1>
 
       <form onSubmit={handleSubmit}>
         <div className="input-wrapper">
-          <label htmlFor="firstname">First Name</label>
-          <input type="text" id="firstname" value={firstName}  onChange={(e) => {setFirstName(e.target.value)}} required/>
+          <label htmlFor="firstname">First name</label>
+          <input type="text" id="firstname" value={firstName}  onChange={(e) => {setFirstName(e.target.value)}} placeholder="first name" required/>
         </div>
         <div className="input-wrapper">
-          <label htmlFor="lastname">Last Name</label>
-          <input type="text" id="lastname" value={lastName} onChange={(e) => {setLastName(e.target.value)}} required/>
+          <label htmlFor="lastname">Last name</label>
+          <input type="text" id="lastname" value={lastName} onChange={(e) => {setLastName(e.target.value)}} placeholder="last name" required/>
         </div>
-        <div className="input-wrapper">
-          <label htmlFor="birthday">Birthday</label>
-          <DatePicker 
-            selected={birthDay}
-            dateFormat="dd/MM/yyyy" 
-            showMonthDropdown
-            useShortMonthInDropdown
-            showYearDropdown
-            dropdownMode="select" 
-            onChange={(date) => setBirthDay(date)} 
-            placeholderText="Select birthday"
-          />
-        </div>
-        <div className="input-wrapper">
-          <label htmlFor="lastname">Start Date</label>
-          <DatePicker 
-            selected={startDate} 
-            dateFormat="dd/MM/yyyy" 
-            showMonthDropdown
-            useShortMonthInDropdown
-            showYearDropdown
-            dropdownMode="select"
-            onChange={(date) => setStartDate(date)} 
-            placeholderText="Select start date"
-          />
+        <div className="date-input-wrapper">
+          <div className="input-wrapper">
+            <label htmlFor="birthday">Birth Date</label>
+            <DatePicker 
+              selected={birthDay}
+              dateFormat="dd/MM/yyyy" 
+              showMonthDropdown
+              useShortMonthInDropdown
+              showYearDropdown
+              dropdownMode="select" 
+              onChange={(date) => setBirthDay(date)} 
+              placeholderText="Select birth date"
+              required
+            />
+          </div>
+          <div className="input-wrapper">
+            <label htmlFor="lastname">Start Date</label>
+            <DatePicker 
+              selected={startDate} 
+              dateFormat="dd/MM/yyyy" 
+              showMonthDropdown
+              useShortMonthInDropdown
+              showYearDropdown
+              dropdownMode="select"
+              onChange={(date) => setStartDate(date)} 
+              placeholderText="Select start date"
+              required
+            />
+          </div>
         </div>
         <div className="input-wrapper">
           <label htmlFor="street">Street</label>
-          <input type="text" id="street" value={street} onChange={(e) => {setStreet(e.target.value)}}/>
+          <input type="text" id="street" value={street} onChange={(e) => {setStreet(e.target.value)}} placeholder="street name" required/>
         </div>
         <div className="input-wrapper">
           <label htmlFor="city">City</label>
-          <input type="text" id="city" value={city} onChange={(e) => {setCity(e.target.value)}}/>
+          <input type="text" id="city" value={city} onChange={(e) => {setCity(e.target.value)}} placeholder="city name" required/>
         </div>
         <div className="input-wrapper">
           <label htmlFor="firstname">State</label>
-          <Select defaultValue={selectedState} onChange={setSelectedState} options={statesOption} />
+          <Select defaultValue={selectedState} onChange={setSelectedState} options={statesOption} placeholder="select state"/>
         </div>
         <div className="input-wrapper">
-          <label htmlFor="zipcode">Zip Code</label>
-          <input type="text" id="zipcode" value={zipCode} onChange={(e) => {setZipCode(e.target.value)}}/>
+          <label htmlFor="zipcode">Zip code</label>
+          <input type="text" id="zipcode" value={zipCode} onChange={(e) => {setZipCode(e.target.value)}} placeholder="zip code" required/>
         </div>
         <div className="input-wrapper">
           <label htmlFor="department">Department</label>
-          <Select defaultValue={selectedDepartment} setValue = {selectedDepartment} onChange={setSelectedDepartment} options={departmentOption} />
+          <Select defaultValue={selectedDepartment} setValue = {selectedDepartment} onChange={setSelectedDepartment} options={departmentOption} placeholder="select department"/>
         </div>
-        <button className="create-button bg-dark">{edition ? 'Update' : 'Create'}</button>
+        <div className="btn-container">
+          <button className="cancel-button bg-light" onClick={onCancelBtn}>Cancel</button>
+          <button type="submit" className="create-button bg-dark">{edition ? 'Update' : 'Create'}</button>
+        </div>
       </form>
     </div>
   );

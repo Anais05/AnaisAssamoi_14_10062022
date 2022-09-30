@@ -25,8 +25,6 @@ export default function List() {
     getList().catch(console.error);    
 	}, [])
 
-  dispatch(getEmployee({employee: null}));
-
   // Theme
   const theme = useTheme(getTheme());
 
@@ -52,7 +50,7 @@ export default function List() {
     {
       state: {
         sortKey: 'FIRST',
-        reverse: true,
+        reverse: false,
       },
       onChange: onSortChange,
     },
@@ -95,7 +93,6 @@ export default function List() {
   };
 
   const formatDate = (date) => {
-    console.log(date)
     const newDate = new Date(date)
     const day = (newDate.getDate()).toString().padStart(2, '0');
     const month = (newDate.getMonth() + 1).toString().padStart(2, '0');
@@ -105,9 +102,9 @@ export default function List() {
 
   // Action
 
-  async function handleDelete(id) {
-    await api.delete(id)
-    getList();
+  function onCreateBtn() {
+    console.log('here create')
+    navigate('/employees-form')
   };
 
   function onEditBtn(item) {
@@ -115,18 +112,29 @@ export default function List() {
     navigate('/employees-form')
   }
 
+  async function handleDelete(id) {
+    await api.delete(id)
+    getList();
+  };
+
   if(list === []) {
     return;
   } 
 
   return (
     <div className="list">
-      <h1 className="list-title">Liste des employés</h1>
-      <div className="list-table">
+      <h1 className="list-title">Employee list</h1>
+      <div className="list-table-header">
         <label htmlFor="search" className="list-search">
-          Recherche: 
+          Search:  
           <input id="search" type="text" value={search} onChange={handleSearch} />
         </label>
+        <button className="add-btn bg-dark" onClick={() => onCreateBtn()}>
+          <i className="fa-solid fa-plus add-icon"></i>
+          Create employee
+        </button>
+      </div>
+      <div className="list-table">
         <Table data={data}  theme={theme} sort={sort} pagination={pagination}>
           {(tableList) => (
             <>
@@ -136,7 +144,7 @@ export default function List() {
                   <HeaderCellSort className="column-header" sortKey="LAST">Lastname</HeaderCellSort>
                   <HeaderCellSort className="column-header" sortKey="START">StartDate</HeaderCellSort>
                   <HeaderCellSort className="column-header" sortKey="DEPART">Department</HeaderCellSort>
-                  <HeaderCellSort className="column-header" sortKey="BIRTH">BirthDay</HeaderCellSort>
+                  <HeaderCellSort className="column-header" sortKey="BIRTH">BirthDate</HeaderCellSort>
                   <HeaderCellSort className="column-header" sortKey="STREET">Street</HeaderCellSort>
                   <HeaderCellSort className="column-header" sortKey="CITY">City</HeaderCellSort>
                   <HeaderCellSort className="column-header" sortKey="STATE">State</HeaderCellSort>
