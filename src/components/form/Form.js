@@ -1,12 +1,12 @@
 import React, { useState, } from "react";
 import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { getEmployee } from "../../redux/employeeSlice";
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-import api from "../../redux/ApiCalls";
 import Select from 'react-select'
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
-import { getEmployee } from "../../redux/employeeSlice";
+import { Modal } from "simple-react-modal-by-assamoi";
+import api from "../../redux/ApiCalls";
 import './Form.css'
 
 export default function Form() {
@@ -25,6 +25,8 @@ export default function Form() {
   const [startDate, setStartDate] = useState(employeeToEdit  ? new Date(employeeToEdit.startDate) :null);
   const [selectedDepartment, setSelectedDepartment] = useState(employeeToEdit  ? { value: employeeToEdit.department, label: employeeToEdit.department} : '');
   const [selectedState, setSelectedState] = useState(employeeToEdit  ?  { value: employeeToEdit.stateAb, label: employeeToEdit.state } : '');
+  const [modalOpen, setModalOpen] = useState(false);
+
 
   if(employeeToEdit) {
     edition = true;
@@ -92,7 +94,10 @@ export default function Form() {
     { value: 'WY', label: 'Wyoming'}
   ]
 
-  const handleSubmit = async () => {
+  console.log('modal', modalOpen)
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
     const employee = {
       firstName : firstName,
       lastName : lastName,
@@ -112,13 +117,25 @@ export default function Form() {
         await api.update(employee);
       } else {
         await api.create(employee)
+        setModalOpen(true)
+
       }
     } catch (error) {
       console.log(error)
     } 
-    finally {
-      navigate('/')
-    }
+    setModalOpen(true)
+  };
+
+  const onCloseModal = () => {
+    dispatch(getEmployee({employee: null}));
+    setModalOpen(false)
+    navigate('/')
+  };
+
+  const ModalContent = edition ? "Successfully updated employee" : "Successfully created employee";
+  const myTheme = {
+    closeBtnColor: "#ffffff",
+    closeBtnBgColor: "#2591CE",
   };
 
   const onCancelBtn = () => {
@@ -193,6 +210,12 @@ export default function Form() {
           <button className="cancel-button bg-light" onClick={onCancelBtn}>Cancel</button>
           <button type="submit" className="create-button bg-dark">{edition ? 'Update' : 'Create'}</button>
         </div>
+
+        <Modal open={modalOpen}
+          content={ModalContent}
+          theme={myTheme}
+          onClose={onCloseModal} 
+        />
       </form>
     </div>
   );
