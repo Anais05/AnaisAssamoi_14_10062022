@@ -16,12 +16,6 @@ export default function Form() {
   const navigate = useNavigate();
   const dispatch = useDispatch()
 
-  const ModalContent = edition ? "Successfully updated employee !" : "Successfully created employee !";
-  const myTheme = {
-    closeBtnColor: "#ffffff",
-    closeBtnBgColor: "#2591CE",
-  };
-
   const [firstName, setFirstName] = useState(employeeToEdit  ? employeeToEdit.firstName : '');
   const [lastName, setLastName] = useState(employeeToEdit  ? employeeToEdit.lastName : '');
   const [street, setStreet] = useState(employeeToEdit  ? employeeToEdit.street : '');
@@ -99,6 +93,12 @@ export default function Form() {
     { value: 'WV', label: 'West Virginia'},
     { value: 'WY', label: 'Wyoming'}
   ]
+
+  const ModalContent = edition ? "Successfully updated employee !" : "Successfully created employee !";
+  const myTheme = {
+    closeBtnColor: "#ffffff",
+    closeBtnBgColor: "#2591CE",
+  };
 
 
   const handleSubmit = async (e) => {
