@@ -1,5 +1,5 @@
 .list {
-  width: 90%;
+  width: 95%;
   margin: 45px auto;
   background-color: #fff;
   padding: 20px 0;
@@ -59,4 +59,24 @@
   color: white;
   background-color: #2591CE;
   border: 0.5px solid #1b6a98;
+}
+
+.page-navigation {
+  display: flex;
+  align-items: flex-start;
+}
+
+.page-navigation p {
+  margin: 0 10px;
+  font-weight: 700;
+}
+
+.page-navigation button {
+  color: #2591CE;
+  background-color: #fff;
+  border: 0.5px solid #2591CE;
+}
+
+.page-navigation button:disabled {
+  opacity: 0.5;
 }

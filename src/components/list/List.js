@@ -18,12 +18,6 @@ export default function List() {
   const navigate = useNavigate();
   const dispatch = useDispatch()
 
-  const ModalContent = "Successfully deleted employee !";
-  const myTheme = {
-    closeBtnColor: "#ffffff",
-    closeBtnBgColor: "#2591CE",
-  };
-
   async function getList() {
     const resp = await api.employeeList();
     const data =  resp.data.body;
@@ -33,6 +27,13 @@ export default function List() {
   useEffect(() => {
     getList().catch(console.error);    
 	}, [])
+
+  // Modal
+  const ModalContent = "Successfully deleted employee !";
+  const myTheme = {
+    closeBtnColor: "#ffffff",
+    closeBtnBgColor: "#2591CE",
+  };
 
   // Theme
   const theme = useTheme(getTheme());
@@ -92,7 +93,7 @@ export default function List() {
   });
 
   function onPaginationChange(action, state) {
-    console.log('here',action, state);
+    console.log(action, state);
   }
 
   const sizes = [10, 25, 50];
@@ -101,16 +102,7 @@ export default function List() {
     pagination.fns.onSetSize(event.target.value)
   };
 
-  const formatDate = (date) => {
-    const newDate = new Date(date)
-    const day = (newDate.getDate()).toString().padStart(2, '0');
-    const month = (newDate.getMonth() + 1).toString().padStart(2, '0');
-    const year = newDate.getFullYear();
-    return `${day}/${month}/${year}`.toString();
-  };
-
   // Action
-
   function onCreateBtn() {
     navigate('/employees-form')
   };
@@ -124,6 +116,15 @@ export default function List() {
     await api.delete(id)
     setModalOpen(true)
     getList()
+  };
+
+  // Date format
+  const formatDate = (date) => {
+    const newDate = new Date(date)
+    const day = (newDate.getDate()).toString().padStart(2, '0');
+    const month = (newDate.getMonth() + 1).toString().padStart(2, '0');
+    const year = newDate.getFullYear();
+    return `${day}/${month}/${year}`.toString();
   };
 
   if(list === []) {
@@ -199,22 +200,25 @@ export default function List() {
             </select>
           </span>
 
-          <span>
-            Page:{' '}
-            {pagination.state.getPages(data.nodes).map((_, index) => (
-              <button
-                className="pagination-btn"
-                key={index}
-                type="button"
-                style={{
-                  fontWeight: pagination.state.page === index ? 'bold' : 'normal',
-                }}
-                onClick={() => pagination.fns.onSetPage(index)}
-              >
-                {index + 1}
-              </button>
-            ))}
-          </span>
+          <div className="page-navigation">
+            <button type="button" disabled={pagination.state.page === 0} onClick={() => pagination.fns.onSetPage(0)}>
+              <i className="fa-solid fa-angles-left"></i>
+            </button>
+            <button type="button" disabled={pagination.state.page === 0} onClick={() => pagination.fns.onSetPage(pagination.state.page - 1)}>
+              <i className="fa-solid fa-angle-left"></i>
+            </button>
+            <p>{pagination.state.page + 1}</p>
+            <button type="button" disabled={pagination.state.page + 1 === pagination.state.getTotalPages(data.nodes)} 
+              onClick={() => pagination.fns.onSetPage(pagination.state.page + 1)}
+            >
+              <i className="fa-solid fa-angle-right"></i>
+            </button>
+            <button type="button" disabled={pagination.state.page + 1 === pagination.state.getTotalPages(data.nodes)}
+              onClick={() => pagination.fns.onSetPage(pagination.state.getTotalPages(data.nodes) - 1)}
+            >
+              <i className="fa-solid fa-angles-right"></i>
+            </button>
+          </div>
         </div>
       </div>
       <Modal 

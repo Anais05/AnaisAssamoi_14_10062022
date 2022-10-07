@@ -32,4 +32,4 @@
 
 ## Documents
 
-- [Maquettes](https://www.figma.com/file/dvUOgeWFWD3TcrBd5otfkH/HRnet?node-id=6%3A13)
+- [Maquettes](https://www.figma.com/file/dvUOgeWFWD3TcrBd5otfkH/HRnet?node-id=6%3A1)
