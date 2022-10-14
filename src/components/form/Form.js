@@ -193,7 +193,7 @@ export default function Form() {
         </div>
         <div className="input-wrapper">
           <label htmlFor="firstname">State</label>
-          <Select defaultValue={selectedState} onChange={setSelectedState} options={statesOption} placeholder="select state"/>
+          <Select className="select-input" defaultValue={selectedState} onChange={setSelectedState} options={statesOption} placeholder="select state"/>
         </div>
         <div className="input-wrapper">
           <label htmlFor="zipcode">Zip code</label>
@@ -201,7 +201,7 @@ export default function Form() {
         </div>
         <div className="input-wrapper">
           <label htmlFor="department">Department</label>
-          <Select defaultValue={selectedDepartment} setValue = {selectedDepartment} onChange={setSelectedDepartment} options={departmentOption} placeholder="select department"/>
+          <Select className="select-input" defaultValue={selectedDepartment} setValue = {selectedDepartment} onChange={setSelectedDepartment} options={departmentOption} placeholder="select department"/>
         </div>
         <div className="btn-container">
           <button className="cancel-button bg-light" onClick={onCancelBtn}>Cancel</button>

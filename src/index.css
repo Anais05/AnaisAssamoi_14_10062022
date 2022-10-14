@@ -1,6 +1,9 @@
+* {
+  font-family: 'Averia Serif Libre';
+}
+
 body {
   margin: 0;
-  font-family: 'Averia Serif Libre', cursive;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #ECF2F9;

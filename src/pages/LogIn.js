@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../redux/loginSlice';
 import api from "../redux/ApiCalls";
 import logo from '../assets/logo.png';
@@ -9,19 +9,28 @@ import './LogIn.css';
 export default function LogIn() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const token = localStorage.getItem('token')
+  const [loginError, setLoginError] = useState(false)
+  const token = useSelector((state)=>state.login.token)
+
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
   useEffect(() => {
 		if (token) {
-      dispatch(login({token: token}));
 			navigate('/')
 		}
-	}, [token, dispatch, navigate])
+	}, [token, navigate])
 
-  async function handleSubmit() {
-    await api.loginUser(email, password)
+  async function handleSubmit(e) {
+    e.preventDefault()
+    try {
+      const response = await api.loginUser(email, password)
+      const token = response.data.body.token;
+      dispatch(login({token}));
+      navigate('/')
+    } catch (error) {
+     setLoginError(true)
+    }
   };
 
   return (
@@ -40,6 +49,7 @@ export default function LogIn() {
 						<input type="password" id="password" value={password} onChange={(e) => {setPassword(e.target.value)}} />
 					</div>
 					<button className="log-in-button bg-dark">Login</button>
+          {loginError && <p className="error">Email or password invalid</p>}
         </form>
       </section>
     </main>
