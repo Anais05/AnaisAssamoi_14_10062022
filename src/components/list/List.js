@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import api from "../../redux/ApiCalls";
 import { Table, Header, HeaderRow, HeaderCell, Body, Row, Cell } from '@table-library/react-table-library/table';
 import { useTheme } from '@table-library/react-table-library/theme';
@@ -9,24 +9,14 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import { getEmployee } from "../../redux/employeeSlice";
 import { Modal } from "simple-react-modal-by-assamoi";
+import PropTypes from 'prop-types';
 import './List.css';
 
-export default function List() {
-  const [list, setList] = useState([]);
+export default function List({list}) {
   const [modalOpen, setModalOpen] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch()
-
-  async function getList() {
-    const resp = await api.employeeList();
-    const data =  resp.data.body;
-    setList(data);
-  }
-
-  useEffect(() => {
-    getList().catch(console.error);    
-	}, [])
 
   // Modal
   const ModalContent = "Successfully deleted employee !";
@@ -68,9 +58,9 @@ export default function List() {
       sortFns: {
         FIRST: (array) => array.sort((a, b) => a.firstName.localeCompare(b.firstName)),
         LAST: (array) => array.sort((a, b) => a.lastName.localeCompare(b.lastName)),
-        START: (array) => array.sort((a, b) => a.startDate - b.startDate),
+        START: (array) => array.sort((a, b) => new Date(a.startDate) - new Date(b.startDate)),
         DEPART: (array) => array.sort((a, b) => a.department.localeCompare(b.department)),
-        BIRTH: (array) => array.sort((a, b) => a.birthDay - b.birthDay),
+        BIRTH: (array) => array.sort((a, b) => new Date(a.birthDay) - new Date(b.birthDay)),
         STREET: (array) => array.sort((a, b) => a.street.localeCompare(b.street)),
         CITY: (array) => array.sort((a, b) => a.city.localeCompare(b.city)),
         STATE: (array) => array.sort((a, b) => a.state.localeCompare(b.state)),
@@ -103,6 +93,12 @@ export default function List() {
   };
 
   // Action
+  async function getList() {
+    const resp = await api.employeeList();
+    const data =  resp.data.body;
+    list = data;
+  }
+
   function onCreateBtn() {
     navigate('/employees-form')
   };
@@ -126,10 +122,6 @@ export default function List() {
     const year = newDate.getFullYear();
     return `${day}/${month}/${year}`.toString();
   };
-
-  if(list === []) {
-    return;
-  } 
 
   return (
     <div className="list">
@@ -229,4 +221,22 @@ export default function List() {
       />
     </div>
   );
+}
+
+
+List.propTypes = {
+  list: PropTypes.arrayOf(
+    PropTypes.shape({
+      firstName: PropTypes.string.isRequired,
+      lastName: PropTypes.string.isRequired,
+      birthDay: PropTypes.string.isRequired,
+      startDate: PropTypes.string.isRequired,
+      street: PropTypes.string.isRequired,
+      city: PropTypes.string.isRequired,
+      state: PropTypes.string.isRequired,
+      stateAb: PropTypes.string.isRequired,
+      zipCode: PropTypes.string.isRequired,
+      department: PropTypes.string.isRequired,
+    })
+  ).isRequired,
 }
