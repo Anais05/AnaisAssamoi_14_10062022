@@ -20,6 +20,7 @@
     "react-scripts": "5.0.1",
     "react-select": "^5.4.0",
     "redux": "^4.2.0",
+    "redux-persist": "^6.0.0",
     "simple-react-modal-by-assamoi": "^0.1.4",
     "web-vitals": "^2.1.4"
   },

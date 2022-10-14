@@ -15,12 +15,18 @@ form {
   flex-direction: column;
   text-align: left;
   margin: 35px 0;
+  font-size: 1.2rem !important;
+}
+
+.select-input div {
+  color: hsl(0, 0%, 30%) !important;
 }
 
 .date-input-wrapper {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-top: 20px;
 }
 
 .date-input-wrapper .input-wrapper {

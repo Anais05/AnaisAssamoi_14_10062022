@@ -10,7 +10,6 @@ const employeeSlice = createSlice({
       return {
         ...state,
         employee: action.payload.employee,
-        isEdition: true,
       }
     },
   }
