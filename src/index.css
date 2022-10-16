@@ -30,3 +30,7 @@ body {
   color: #000;
   background-color: #ebebeb;
 }
+
+.text-hidden {
+  color: transparent;
+}

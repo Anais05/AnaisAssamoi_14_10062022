@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import api from "../../redux/ApiCalls";
 import { Table, Header, HeaderRow, HeaderCell, Body, Row, Cell } from '@table-library/react-table-library/table';
 import { useTheme } from '@table-library/react-table-library/theme';
@@ -12,8 +12,13 @@ import { Modal } from "simple-react-modal-by-assamoi";
 import PropTypes from 'prop-types';
 import './List.css';
 
-export default function List({list}) {
+export default function List({employees}) {
   const [modalOpen, setModalOpen] = useState(false);
+  const [list, setList] = useState([]);
+
+  useEffect(() => {
+    setList(employees);    
+	}, [employees])
 
   const navigate = useNavigate();
   const dispatch = useDispatch()
@@ -96,16 +101,16 @@ export default function List({list}) {
   async function getList() {
     const resp = await api.employeeList();
     const data =  resp.data.body;
-    list = data;
+    setList(data);
   }
 
   function onCreateBtn() {
-    navigate('/employees-form')
+    navigate('/form')
   };
 
   function onEditBtn(item) {
     dispatch(getEmployee({employee: item}));
-    navigate('/employees-form')
+    navigate('/form')
   }
 
   async function handleDelete(id) {
@@ -141,7 +146,7 @@ export default function List({list}) {
           {(tableList) => (
             <>
               <Header>
-                <HeaderRow>
+                <HeaderRow role="row">
                   <HeaderCellSort className="column-header" sortKey="FIRST">Firstname</HeaderCellSort>
                   <HeaderCellSort className="column-header" sortKey="LAST">Lastname</HeaderCellSort>
                   <HeaderCellSort className="column-header" sortKey="START">StartDate</HeaderCellSort>
@@ -151,7 +156,7 @@ export default function List({list}) {
                   <HeaderCellSort className="column-header" sortKey="CITY">City</HeaderCellSort>
                   <HeaderCellSort className="column-header" sortKey="STATE">State</HeaderCellSort>
                   <HeaderCellSort className="column-header" sortKey="ZIP">Zip code</HeaderCellSort>
-                  <HeaderCell className="column-header"></HeaderCell>
+                  <HeaderCell className="column-header text-hidden"> Action</HeaderCell>
                 </HeaderRow>
               </Header>
               <Body>
@@ -167,11 +172,11 @@ export default function List({list}) {
                     <Cell>{item.state}</Cell>
                     <Cell>{item.zipCode}</Cell>
                     <Cell>
-                      <button type="button" className="action-btn edit-btn" onClick={() => onEditBtn(item)}>
+                      <button aria-label="edit employee" type="button" className="action-btn edit-btn" onClick={() => onEditBtn(item)}>
                         <i className="fa-solid fa-pen-to-square"></i>
                       </button>
 
-                      <button type="button" className="action-btn delete-btn" onClick={() => handleDelete(item._id)}>
+                      <button aria-label="delete employee" type="button" className="action-btn delete-btn" onClick={() => handleDelete(item._id)}>
                         <i className="fa-solid fa-trash-can"></i>
                       </button>
                     </Cell>
@@ -193,19 +198,19 @@ export default function List({list}) {
           </span>
 
           <div className="page-navigation">
-            <button type="button" disabled={pagination.state.page === 0} onClick={() => pagination.fns.onSetPage(0)}>
+            <button aria-label="go to start" type="button" disabled={pagination.state.page === 0} onClick={() => pagination.fns.onSetPage(0)}>
               <i className="fa-solid fa-angles-left"></i>
             </button>
-            <button type="button" disabled={pagination.state.page === 0} onClick={() => pagination.fns.onSetPage(pagination.state.page - 1)}>
+            <button aria-label="back" type="button" disabled={pagination.state.page === 0} onClick={() => pagination.fns.onSetPage(pagination.state.page - 1)}>
               <i className="fa-solid fa-angle-left"></i>
             </button>
-            <p>{pagination.state.page + 1}</p>
-            <button type="button" disabled={pagination.state.page + 1 === pagination.state.getTotalPages(data.nodes)} 
+            <span>{pagination.state.page + 1}</span>
+            <button aria-label="next" type="button" disabled={pagination.state.page + 1 === pagination.state.getTotalPages(data.nodes)} 
               onClick={() => pagination.fns.onSetPage(pagination.state.page + 1)}
             >
               <i className="fa-solid fa-angle-right"></i>
             </button>
-            <button type="button" disabled={pagination.state.page + 1 === pagination.state.getTotalPages(data.nodes)}
+            <button aria-label="go to end" type="button" disabled={pagination.state.page + 1 === pagination.state.getTotalPages(data.nodes)}
               onClick={() => pagination.fns.onSetPage(pagination.state.getTotalPages(data.nodes) - 1)}
             >
               <i className="fa-solid fa-angles-right"></i>
@@ -225,7 +230,7 @@ export default function List({list}) {
 
 
 List.propTypes = {
-  list: PropTypes.arrayOf(
+  employees: PropTypes.arrayOf(
     PropTypes.shape({
       firstName: PropTypes.string.isRequired,
       lastName: PropTypes.string.isRequired,

@@ -27,7 +27,7 @@ export default function Home() {
 
   return (
     <main className="main">
-      <List list={list}/>
+      <List employees={list}/>
     </main>
   );
 }
