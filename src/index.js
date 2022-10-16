@@ -19,7 +19,7 @@ root.render(
         <Routes>
           <Route path="/" element={< Home />} />
           <Route path="/login" element={< LogIn />} />
-          <Route path="/employees-form" element={< EmployeeForm />}/>
+          <Route path="/form" element={< EmployeeForm />}/>
         </Routes>
       </BrowserRouter>
     </React.StrictMode>

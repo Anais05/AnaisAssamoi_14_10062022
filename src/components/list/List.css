@@ -66,7 +66,7 @@
   align-items: flex-start;
 }
 
-.page-navigation p {
+.page-navigation span {
   margin: 0 10px;
   font-weight: 700;
 }

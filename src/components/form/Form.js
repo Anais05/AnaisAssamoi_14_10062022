@@ -157,6 +157,7 @@ export default function Form() {
           <div className="input-wrapper">
             <label htmlFor="birthday">Birth Date</label>
             <DatePicker 
+              id="birthday"
               selected={birthDay}
               dateFormat="dd/MM/yyyy" 
               showMonthDropdown
@@ -169,8 +170,9 @@ export default function Form() {
             />
           </div>
           <div className="input-wrapper">
-            <label htmlFor="lastname">Start Date</label>
-            <DatePicker 
+            <label htmlFor="startDate">Start Date</label>
+            <DatePicker
+              id="startDate" 
               selected={startDate} 
               dateFormat="dd/MM/yyyy" 
               showMonthDropdown
@@ -192,8 +194,8 @@ export default function Form() {
           <input type="text" id="city" value={city} onChange={(e) => {setCity(e.target.value)}} placeholder="city name" required/>
         </div>
         <div className="input-wrapper">
-          <label htmlFor="firstname">State</label>
-          <Select className="select-input" defaultValue={selectedState} onChange={setSelectedState} options={statesOption} placeholder="select state"/>
+          <label htmlFor="state">State</label>
+          <Select aria-labelledby="state" id="state" className="select-input" defaultValue={selectedState} onChange={setSelectedState} options={statesOption} placeholder="select state"/>
         </div>
         <div className="input-wrapper">
           <label htmlFor="zipcode">Zip code</label>
@@ -201,7 +203,7 @@ export default function Form() {
         </div>
         <div className="input-wrapper">
           <label htmlFor="department">Department</label>
-          <Select className="select-input" defaultValue={selectedDepartment} setValue = {selectedDepartment} onChange={setSelectedDepartment} options={departmentOption} placeholder="select department"/>
+          <Select aria-labelledby="department" id="department" className="select-input" defaultValue={selectedDepartment} setValue = {selectedDepartment} onChange={setSelectedDepartment} options={departmentOption} placeholder="select department"/>
         </div>
         <div className="btn-container">
           <button className="cancel-button bg-light" onClick={onCancelBtn}>Cancel</button>
