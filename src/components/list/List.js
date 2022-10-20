@@ -207,12 +207,12 @@ export default function List({employees}) {
               <FontAwesomeIcon icon={faAngleLeft} />
             </button>
             <span>{pagination.state.page + 1}</span>
-            <button aria-label="next" type="button" disabled={pagination.state.page + 1 === pagination.state.getTotalPages(data.nodes)} 
+            <button aria-label="next" type="button" disabled={pagination.state.page + 1 === pagination.state.getTotalPages(data.nodes) || pagination.state.page === pagination.state.getTotalPages(data.nodes)} 
               onClick={() => pagination.fns.onSetPage(pagination.state.page + 1)}
             >
               <FontAwesomeIcon icon={faAngleRight} />
             </button>
-            <button aria-label="go to end" type="button" disabled={pagination.state.page + 1 === pagination.state.getTotalPages(data.nodes)}
+            <button aria-label="go to end" type="button" disabled={pagination.state.page + 1 === pagination.state.getTotalPages(data.nodes) || pagination.state.page === pagination.state.getTotalPages(data.nodes)}
               onClick={() => pagination.fns.onSetPage(pagination.state.getTotalPages(data.nodes) - 1)}
             >
               <FontAwesomeIcon icon={faAnglesRight} />
