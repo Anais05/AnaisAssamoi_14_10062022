@@ -1,9 +1,13 @@
 {
-  "name": "wealth-health",
+  "name": "HRnet",
   "version": "0.1.0",
+  "homepage": ".",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.0",
+    "@fortawesome/fontawesome-svg-core": "^6.2.0",
+    "@fortawesome/free-solid-svg-icons": "^6.2.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "@reduxjs/toolkit": "^1.8.2",
     "@table-library/react-table-library": "^4.0.18",
     "axios": "^0.27.2",

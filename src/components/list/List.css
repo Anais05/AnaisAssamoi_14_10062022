@@ -56,7 +56,7 @@
 }
 
 .pagination-btn {
-  color: white;
+  color: #fff;
   background-color: #2591CE;
   border: 0.5px solid #1b6a98;
 }
@@ -75,6 +75,7 @@
   color: #2591CE;
   background-color: #fff;
   border: 0.5px solid #2591CE;
+  display: flex;
 }
 
 .page-navigation button:disabled {

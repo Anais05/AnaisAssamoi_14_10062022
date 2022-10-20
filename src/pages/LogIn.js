@@ -49,7 +49,7 @@ export default function LogIn() {
 						<label htmlFor="password">Password</label>
 						<input type="password" id="password" value={password} onChange={(e) => {setPassword(e.target.value)}} autoComplete="true" />
 					</div>
-					<button className="log-in-button bg-dark">Login</button>
+					<button className="log-in-button btn bg-dark">Login</button>
           {loginError && <p className="error">Email or password invalid</p>}
         </form>
       </section>

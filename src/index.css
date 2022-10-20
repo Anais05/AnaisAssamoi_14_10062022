@@ -1,32 +1,27 @@
 * {
-  font-family: 'Averia Serif Libre';
+  font-family: 'Times New Roman';
 }
 
 body {
   margin: 0;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   background-color: #ECF2F9;
 }
 
-.bg-dark {
+.btn {
   display: block;
   padding: 10px 20px;
   font-size: 1.1rem;
   font-weight: bold;
-  background-color: #2591CE;
   border-color: transparent;
   border-radius: 5px;
+}
+
+.bg-dark {
+  background-color: #2591CE;
   color: #fff;
 }
 
 .bg-light {
-  display: block;
-  padding: 10px 20px;
-  font-size: 1.1rem;
-  font-weight: bold;
-  border-color: transparent;
-  border-radius: 5px;
   color: #000;
   background-color: #ebebeb;
 }

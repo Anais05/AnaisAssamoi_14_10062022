@@ -218,8 +218,8 @@ export default function Form() {
           <Select aria-labelledby="department" id="department" className="select-input" defaultValue={selectedDepartment} setValue = {selectedDepartment} onChange={setSelectedDepartment} options={departmentOption} placeholder="select department"/>
         </div>
         <div className="btn-container">
-          <button type="button" className="cancel-button bg-light" onClick={onCancelBtn}>Cancel</button>
-          <button type="submit" className="create-button bg-dark">{edition ? 'Update' : 'Create'}</button>
+          <button type="button" className="cancel-button btn bg-light" onClick={onCancelBtn}>Cancel</button>
+          <button type="submit" className="create-button btn bg-dark">{edition ? 'Update' : 'Create'}</button>
         </div>
 
         <Modal open={modalOpen}

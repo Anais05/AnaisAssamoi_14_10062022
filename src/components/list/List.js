@@ -9,6 +9,8 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import { getEmployee } from "../../redux/employeeSlice";
 import { Modal } from "simple-react-modal-by-assamoi";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faPenToSquare, faTrashCan, faAngleLeft, faAnglesLeft, faAngleRight, faAnglesRight } from '@fortawesome/free-solid-svg-icons'
 import PropTypes from 'prop-types';
 import './List.css';
 
@@ -136,8 +138,8 @@ export default function List({employees}) {
           Search:  
           <input id="search" type="text" value={search} onChange={handleSearch} />
         </label>
-        <button className="add-btn bg-dark" onClick={() => onCreateBtn()}>
-          <i className="fa-solid fa-plus add-icon"></i>
+        <button className="add-btn btn bg-dark" onClick={() => onCreateBtn()}>
+          <FontAwesomeIcon className="add-icon" icon={faPlus} />
           Create employee
         </button>
       </div>
@@ -173,11 +175,11 @@ export default function List({employees}) {
                     <Cell>{item.zipCode}</Cell>
                     <Cell>
                       <button aria-label="edit employee" type="button" className="action-btn edit-btn" onClick={() => onEditBtn(item)}>
-                        <i className="fa-solid fa-pen-to-square"></i>
+                        <FontAwesomeIcon icon={faPenToSquare} />
                       </button>
 
                       <button aria-label="delete employee" type="button" className="action-btn delete-btn" onClick={() => handleDelete(item._id)}>
-                        <i className="fa-solid fa-trash-can"></i>
+                        <FontAwesomeIcon icon={faTrashCan} />
                       </button>
                     </Cell>
                   </Row>
@@ -199,21 +201,21 @@ export default function List({employees}) {
 
           <div className="page-navigation">
             <button aria-label="go to start" type="button" disabled={pagination.state.page === 0} onClick={() => pagination.fns.onSetPage(0)}>
-              <i className="fa-solid fa-angles-left"></i>
+              <FontAwesomeIcon icon={faAnglesLeft} />
             </button>
             <button aria-label="back" type="button" disabled={pagination.state.page === 0} onClick={() => pagination.fns.onSetPage(pagination.state.page - 1)}>
-              <i className="fa-solid fa-angle-left"></i>
+              <FontAwesomeIcon icon={faAngleLeft} />
             </button>
             <span>{pagination.state.page + 1}</span>
             <button aria-label="next" type="button" disabled={pagination.state.page + 1 === pagination.state.getTotalPages(data.nodes)} 
               onClick={() => pagination.fns.onSetPage(pagination.state.page + 1)}
             >
-              <i className="fa-solid fa-angle-right"></i>
+              <FontAwesomeIcon icon={faAngleRight} />
             </button>
             <button aria-label="go to end" type="button" disabled={pagination.state.page + 1 === pagination.state.getTotalPages(data.nodes)}
               onClick={() => pagination.fns.onSetPage(pagination.state.getTotalPages(data.nodes) - 1)}
             >
-              <i className="fa-solid fa-angles-right"></i>
+              <FontAwesomeIcon icon={faAnglesRight} />
             </button>
           </div>
         </div>

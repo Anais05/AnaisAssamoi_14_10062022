@@ -44,7 +44,6 @@
   margin-left: 50px;
 }
 
-
 @media (max-width: 950px) {
   .date-input-wrapper {
     display: unset;
