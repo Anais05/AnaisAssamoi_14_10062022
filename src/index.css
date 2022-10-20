@@ -33,4 +33,7 @@ body {
 
 .text-hidden {
   color: transparent;
+  width: unset;
+  height: unset;
+  margin: unset;
 }

@@ -132,7 +132,19 @@ export default function Form() {
   const onCloseModal = () => {
     dispatch(getEmployee({employee: null}));
     setModalOpen(false)
-    navigate('/')
+    if (edition) {
+      navigate('/')
+    } else{
+      setFirstName('')
+      setLastName('')
+      setStreet('')
+      setCity('')
+      setZipCode('')
+      setBirthDay(null)
+      setStartDate(null)
+      setSelectedState('')
+      setSelectedDepartment('')
+    }
   };
 
   const onCancelBtn = () => {
@@ -206,7 +218,7 @@ export default function Form() {
           <Select aria-labelledby="department" id="department" className="select-input" defaultValue={selectedDepartment} setValue = {selectedDepartment} onChange={setSelectedDepartment} options={departmentOption} placeholder="select department"/>
         </div>
         <div className="btn-container">
-          <button className="cancel-button bg-light" onClick={onCancelBtn}>Cancel</button>
+          <button type="button" className="cancel-button bg-light" onClick={onCancelBtn}>Cancel</button>
           <button type="submit" className="create-button bg-dark">{edition ? 'Update' : 'Create'}</button>
         </div>
 

@@ -26,7 +26,6 @@
 }
 
 .input-wrapper label {
-  font-weight: bold;
   margin-bottom: 15px;
 }
 
@@ -35,6 +34,7 @@
   font-size: 1.2rem;
   border: 1px solid hsl(0, 0%, 80%);
   color: hsl(0, 0%, 30%);
+  width: 100%;
 }
 
 .log-in-button {

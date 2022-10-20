@@ -5,7 +5,7 @@
   padding: 20px;
 }
 
-form {
+.form form {
   width: 70%;
   margin: auto;
 }
@@ -42,4 +42,15 @@ form {
 
 .create-button {
   margin-left: 50px;
+}
+
+
+@media (max-width: 950px) {
+  .date-input-wrapper {
+    display: unset;
+  }
+
+  .date-input-wrapper .input-wrapper {
+    margin: 35px 0;
+  }
 }
