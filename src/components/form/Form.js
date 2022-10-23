@@ -3,6 +3,7 @@ import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import Select from 'react-select'
 import { Modal } from "simple-react-modal-by-assamoi";
+import Input from "../input/Input";
 import { departmentOptions, statesOptions, generateId, formatDate } from "../../utils/utils";
 import { addEmployee } from "../../redux/employeeSlice";
 import { useDispatch } from 'react-redux';
@@ -67,14 +68,8 @@ export default function Form() {
       <h1 className="list-title">Create Employee</h1>
 
       <form onSubmit={handleSubmit}>
-        <div className="input-wrapper">
-          <label htmlFor="firstname">First name</label>
-          <input type="text" id="firstname" value={firstName}  onChange={(e) => {setFirstName(e.target.value)}} placeholder="first name" required/>
-        </div>
-        <div className="input-wrapper">
-          <label htmlFor="lastname">Last name</label>
-          <input type="text" id="lastname" value={lastName} onChange={(e) => {setLastName(e.target.value)}} placeholder="last name" required/>
-        </div>
+        <Input type="text" name="firstname" label="First Name" value={firstName} setInput={setFirstName} placeholder="firstname" />
+        <Input type="text" name="lastname" label="Last Name" value={lastName} setInput={setLastName} placeholder="lastname" />
         <div className="date-input-wrapper">
           <div className="input-wrapper">
             <label htmlFor="birthday">Birth Date</label>
@@ -87,7 +82,7 @@ export default function Form() {
               showYearDropdown
               dropdownMode="select" 
               onChange={(date) => setBirthDay(date)} 
-              placeholderText="Select birth date"
+              placeholderText="select birth date"
               required
             />
           </div>
@@ -102,33 +97,24 @@ export default function Form() {
               showYearDropdown
               dropdownMode="select"
               onChange={(date) => setStartDate(date)} 
-              placeholderText="Select start date"
+              placeholderText="select start date"
               required
             />
           </div>
         </div>
-        <div className="input-wrapper">
-          <label htmlFor="street">Street</label>
-          <input type="text" id="street" value={street} onChange={(e) => {setStreet(e.target.value)}} placeholder="street name" required/>
-        </div>
-        <div className="input-wrapper">
-          <label htmlFor="city">City</label>
-          <input type="text" id="city" value={city} onChange={(e) => {setCity(e.target.value)}} placeholder="city name" required/>
-        </div>
+        <Input type="text" name="street" label="Street" value={street} setInput={setStreet} placeholder="street name" />
+        <Input type="text" name="city" label="City" value={city} setInput={setCity} placeholder="city name" />
         <div className="input-wrapper">
           <label htmlFor="state">State</label>
           <Select aria-labelledby="state" id="state" className="select-input" defaultValue={selectedState} onChange={setSelectedState} options={statesOptions} placeholder="select state"/>
         </div>
-        <div className="input-wrapper">
-          <label htmlFor="zipcode">Zip code</label>
-          <input type="text" id="zipcode" value={zipCode} onChange={(e) => {setZipCode(e.target.value)}} placeholder="zip code" required/>
-        </div>
+        <Input type="number" name="zipcode" label="Zip code" value={zipCode} setInput={setZipCode} placeholder="zip code" />
         <div className="input-wrapper">
           <label htmlFor="department">Department</label>
           <Select aria-labelledby="department" id="department" className="select-input" defaultValue={selectedDepartment} setValue = {selectedDepartment} onChange={setSelectedDepartment} options={departmentOptions} placeholder="select department"/>
         </div>
         <div className="btn-container">
-          <button type="submit" className="create-button btn bg-dark">Save</button>
+          <button type="submit" className="bg-dark">Save</button>
         </div>
 
         <Modal open={modalOpen}

@@ -6,8 +6,7 @@ import { usePagination } from '@table-library/react-table-library/pagination';
 import { HeaderCellSort, useSort } from '@table-library/react-table-library/sort';
 import { Modal } from "simple-react-modal-by-assamoi";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { departmentOptions, statesOptions, generateId, formatDate } from "../../utils/utils";
-
+import { generateId } from "../../utils/utils";
 import { faAngleLeft, faAnglesLeft, faAngleRight, faAnglesRight } from '@fortawesome/free-solid-svg-icons'
 import PropTypes from 'prop-types';
 import './List.css';
