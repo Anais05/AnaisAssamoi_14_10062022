@@ -6,6 +6,8 @@ import { usePagination } from '@table-library/react-table-library/pagination';
 import { HeaderCellSort, useSort } from '@table-library/react-table-library/sort';
 import { Modal } from "simple-react-modal-by-assamoi";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { departmentOptions, statesOptions, generateId, formatDate } from "../../utils/utils";
+
 import { faAngleLeft, faAnglesLeft, faAngleRight, faAnglesRight } from '@fortawesome/free-solid-svg-icons'
 import PropTypes from 'prop-types';
 import './List.css';
@@ -81,7 +83,7 @@ export default function List({list}) {
     console.log(action, state);
   }
 
-  const sizes = [10, 25, 50];
+  const sizes = [10, 25, 50, 100];
 
   const handlePaginationChange = event => {
     pagination.fns.onSetSize(event.target.value)
@@ -89,8 +91,17 @@ export default function List({list}) {
 
   return (
     <div className="list">
-      <h1 className="list-title">Employee list</h1>
+      <h1 className="list-title">Current Employees</h1>
       <div className="list-table-header">
+        <span>
+          show
+          <select className="entries-select" onChange={handlePaginationChange}>
+            {sizes.map((size) => (
+              <option key={size} value={size}>{size}</option>
+            ))}
+          </select>
+          entries
+        </span>
         <label htmlFor="search" className="list-search">
           Search:  
           <input id="search" type="text" value={search} onChange={handleSearch} />
@@ -123,13 +134,13 @@ export default function List({list}) {
                     <Cell>{item.birthDay}</Cell>
                     <Cell>{item.street}</Cell>
                     <Cell>{item.city}</Cell>
-                    <Cell>{item.state}</Cell>
+                    <Cell>{item.stateAb}</Cell>
                     <Cell>{item.zipCode}</Cell>
                   </Row>
                 ))}
                 {!tableList.length && 
                   <Row>
-                    <Cell>No data available in table</Cell>
+                    <Cell className="empty-table" gridColumnStart={1} gridColumnEnd={10}>No data available in table</Cell>
                   </Row>
                 }
               </Body>
@@ -139,12 +150,11 @@ export default function List({list}) {
 
         <div className="pagination">
           <span>
-            page size:{' '}
-            <select onChange={handlePaginationChange}>
-              {sizes.map((size) => (
-                <option key={size} value={size}>{size}</option>
-              ))}
-            </select>
+            Showing {pagination.state.getPageBoundaries(data.nodes).start}
+            {' to '}
+            {pagination.state.getPageBoundaries(data.nodes).end}
+            {' of '}
+            {data.nodes.length}{' entries'}
           </span>
 
           <div className="page-navigation">

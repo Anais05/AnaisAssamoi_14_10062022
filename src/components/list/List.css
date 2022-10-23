@@ -23,12 +23,8 @@
   margin-bottom: 75px;
 }
 
-.add-btn {
-  background-color: #2591CE;
-}
-
-.add-icon {
-  margin-right: 10px;
+.entries-select {
+  margin: 0 10px;
 }
 
 .list-search #search {
@@ -36,17 +32,8 @@
   height: 30px;
 }
 
-.action-btn {
-  border: none;
-  background-color: transparent;
-}
-
-.edit-btn {
-  color:#2591CE;
-}
-
-.delete-btn {
-  color: red;
+.empty-table {
+  text-align: center;
 }
 
 .pagination {

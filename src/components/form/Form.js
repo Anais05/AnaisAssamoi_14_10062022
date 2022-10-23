@@ -64,7 +64,7 @@ export default function Form() {
 
   return (
     <div className="form">
-      <h1 className="list-title">Create employee</h1>
+      <h1 className="list-title">Create Employee</h1>
 
       <form onSubmit={handleSubmit}>
         <div className="input-wrapper">

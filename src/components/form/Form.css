@@ -48,12 +48,8 @@
 .btn-container {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   margin-top: 60px;
-}
-
-.create-button {
-  margin-left: 50px;
 }
 
 @media (max-width: 950px) {
