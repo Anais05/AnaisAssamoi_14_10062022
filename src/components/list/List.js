@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from "react";
-import api from "../../redux/ApiCalls";
-import { Table, Header, HeaderRow, HeaderCell, Body, Row, Cell } from '@table-library/react-table-library/table';
+import { Table, Header, HeaderRow, Body, Row, Cell } from '@table-library/react-table-library/table';
 import { useTheme } from '@table-library/react-table-library/theme';
 import { getTheme } from '@table-library/react-table-library/baseline';
 import { usePagination } from '@table-library/react-table-library/pagination';
 import { HeaderCellSort, useSort } from '@table-library/react-table-library/sort';
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
-import { getEmployee } from "../../redux/employeeSlice";
 import { Modal } from "simple-react-modal-by-assamoi";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faPenToSquare, faTrashCan, faAngleLeft, faAnglesLeft, faAngleRight, faAnglesRight } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faAngleLeft, faAnglesLeft, faAngleRight, faAnglesRight } from '@fortawesome/free-solid-svg-icons'
 import PropTypes from 'prop-types';
 import './List.css';
 
@@ -23,7 +21,6 @@ export default function List({employees}) {
 	}, [employees])
 
   const navigate = useNavigate();
-  const dispatch = useDispatch()
 
   // Modal
   const ModalContent = "Successfully deleted employee !";
@@ -100,25 +97,8 @@ export default function List({employees}) {
   };
 
   // Action
-  async function getList() {
-    const resp = await api.employeeList();
-    const data =  resp.data.body;
-    setList(data);
-  }
-
   function onCreateBtn() {
     navigate('/form')
-  };
-
-  function onEditBtn(item) {
-    dispatch(getEmployee({employee: item}));
-    navigate('/form')
-  }
-
-  async function handleDelete(id) {
-    await api.delete(id)
-    setModalOpen(true)
-    getList()
   };
 
   // Date format
@@ -158,7 +138,6 @@ export default function List({employees}) {
                   <HeaderCellSort className="column-header" sortKey="CITY">City</HeaderCellSort>
                   <HeaderCellSort className="column-header" sortKey="STATE">State</HeaderCellSort>
                   <HeaderCellSort className="column-header" sortKey="ZIP">Zip code</HeaderCellSort>
-                  <HeaderCell className="column-header text-hidden"> Action</HeaderCell>
                 </HeaderRow>
               </Header>
               <Body>
@@ -173,15 +152,6 @@ export default function List({employees}) {
                     <Cell>{item.city}</Cell>
                     <Cell>{item.state}</Cell>
                     <Cell>{item.zipCode}</Cell>
-                    <Cell>
-                      <button aria-label="edit employee" type="button" className="action-btn edit-btn" onClick={() => onEditBtn(item)}>
-                        <FontAwesomeIcon icon={faPenToSquare} />
-                      </button>
-
-                      <button aria-label="delete employee" type="button" className="action-btn delete-btn" onClick={() => handleDelete(item._id)}>
-                        <FontAwesomeIcon icon={faTrashCan} />
-                      </button>
-                    </Cell>
                   </Row>
                 ))}
               </Body>

@@ -1,7 +1,5 @@
 import React, { useState, } from "react";
 import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { getEmployee } from "../../redux/employeeSlice";
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import Select from 'react-select'
@@ -10,27 +8,19 @@ import api from "../../redux/ApiCalls";
 import './Form.css'
 
 export default function Form() {
-  let edition;
-  const employeeToEdit = useSelector((state)=>state.employee.employee);
-
   const navigate = useNavigate();
-  const dispatch = useDispatch()
 
-  const [firstName, setFirstName] = useState(employeeToEdit  ? employeeToEdit.firstName : '');
-  const [lastName, setLastName] = useState(employeeToEdit  ? employeeToEdit.lastName : '');
-  const [street, setStreet] = useState(employeeToEdit  ? employeeToEdit.street : '');
-  const [city, setCity] = useState(employeeToEdit  ? employeeToEdit.city : '');
-  const [zipCode, setZipCode] = useState(employeeToEdit  ? employeeToEdit.zipCode : '');
-  const [birthDay, setBirthDay] = useState(employeeToEdit  ? new Date(employeeToEdit.birthDay) : null);
-  const [startDate, setStartDate] = useState(employeeToEdit  ? new Date(employeeToEdit.startDate) :null);
-  const [selectedDepartment, setSelectedDepartment] = useState(employeeToEdit  ? { value: employeeToEdit.department, label: employeeToEdit.department} : '');
-  const [selectedState, setSelectedState] = useState(employeeToEdit  ?  { value: employeeToEdit.stateAb, label: employeeToEdit.state } : '');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [street, setStreet] = useState('');
+  const [city, setCity] = useState('');
+  const [zipCode, setZipCode] = useState('');
+  const [birthDay, setBirthDay] = useState(null);
+  const [startDate, setStartDate] = useState(null);
+  const [selectedDepartment, setSelectedDepartment] = useState('');
+  const [selectedState, setSelectedState] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
 
-
-  if(employeeToEdit) {
-    edition = true;
-  }
 
   const departmentOption = [
     { value: 'Engineering', label: 'Engineering' },
@@ -94,7 +84,7 @@ export default function Form() {
     { value: 'WY', label: 'Wyoming'}
   ]
 
-  const ModalContent = edition ? "Successfully updated employee !" : "Successfully created employee !";
+  const ModalContent = "Successfully created employee !";
   const myTheme = {
     closeBtnColor: "#ffffff",
     closeBtnBgColor: "#2591CE",
@@ -117,12 +107,7 @@ export default function Form() {
     }
       
     try {
-      if (edition) {
-        employee.id = employeeToEdit._id
-        await api.update(employee);
-      } else {
-        await api.create(employee)
-      }
+      await api.create(employee)
     } catch (error) {
       console.log(error)
     } 
@@ -130,31 +115,25 @@ export default function Form() {
   };
 
   const onCloseModal = () => {
-    dispatch(getEmployee({employee: null}));
     setModalOpen(false)
-    if (edition) {
-      navigate('/')
-    } else{
-      setFirstName('')
-      setLastName('')
-      setStreet('')
-      setCity('')
-      setZipCode('')
-      setBirthDay(null)
-      setStartDate(null)
-      setSelectedState('')
-      setSelectedDepartment('')
-    }
+    setFirstName('')
+    setLastName('')
+    setStreet('')
+    setCity('')
+    setZipCode('')
+    setBirthDay(null)
+    setStartDate(null)
+    setSelectedState('')
+    setSelectedDepartment('')
   };
 
   const onCancelBtn = () => {
-    dispatch(getEmployee({employee: null}));
     navigate('/')
   };
 
   return (
     <div className="form">
-      <h1 className="list-title">{edition ? 'Update employee' : 'Create employee'}</h1>
+      <h1 className="list-title">Create employee</h1>
 
       <form onSubmit={handleSubmit}>
         <div className="input-wrapper">
@@ -218,8 +197,8 @@ export default function Form() {
           <Select aria-labelledby="department" id="department" className="select-input" defaultValue={selectedDepartment} setValue = {selectedDepartment} onChange={setSelectedDepartment} options={departmentOption} placeholder="select department"/>
         </div>
         <div className="btn-container">
-          <button type="button" className="cancel-button btn bg-light" onClick={onCancelBtn}>Cancel</button>
-          <button type="submit" className="create-button btn bg-dark">{edition ? 'Update' : 'Create'}</button>
+          <button type="button" className="cancel-button btn bg-light" onClick={onCancelBtn}>Retour</button>
+          <button type="submit" className="create-button btn bg-dark">Create</button>
         </div>
 
         <Modal open={modalOpen}
