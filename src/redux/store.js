@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
+import employeeSlice from "./employeeSlice"
 import storage from 'redux-persist/lib/storage';
 import { persistReducer, persistStore } from 'redux-persist';
 import thunk from 'redux-thunk';
-import employeeSlice from "./employeeSlice"
 
 const persistConfig = {
   key: 'root',
@@ -11,10 +11,17 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, employeeSlice)
 
-
 export const store = configureStore({
   reducer: persistedReducer,
   middleware: [thunk]
 })
 
 export const persistor = persistStore(store)
+
+
+
+// export const store = configureStore({
+//   reducer: {
+//     employee: employeeSlice,
+//   },
+// });
