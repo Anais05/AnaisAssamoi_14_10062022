@@ -1,29 +1,18 @@
-import React, { useState, useEffect } from "react";
-import api from "../../redux/ApiCalls";
-import { Table, Header, HeaderRow, HeaderCell, Body, Row, Cell } from '@table-library/react-table-library/table';
+import React, { useState } from "react";
+import { Table, Header, HeaderRow, Body, Row, Cell } from '@table-library/react-table-library/table';
 import { useTheme } from '@table-library/react-table-library/theme';
 import { getTheme } from '@table-library/react-table-library/baseline';
 import { usePagination } from '@table-library/react-table-library/pagination';
 import { HeaderCellSort, useSort } from '@table-library/react-table-library/sort';
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from 'react-redux';
-import { getEmployee } from "../../redux/employeeSlice";
 import { Modal } from "simple-react-modal-by-assamoi";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faPenToSquare, faTrashCan, faAngleLeft, faAnglesLeft, faAngleRight, faAnglesRight } from '@fortawesome/free-solid-svg-icons'
+import { formatDate } from "../../utils/utils";
+import { faAngleLeft, faAnglesLeft, faAngleRight, faAnglesRight } from '@fortawesome/free-solid-svg-icons'
 import PropTypes from 'prop-types';
 import './List.css';
 
-export default function List({employees}) {
+export default function List({list}) {
   const [modalOpen, setModalOpen] = useState(false);
-  const [list, setList] = useState([]);
-
-  useEffect(() => {
-    setList(employees);    
-	}, [employees])
-
-  const navigate = useNavigate();
-  const dispatch = useDispatch()
 
   // Modal
   const ModalContent = "Successfully deleted employee !";
@@ -32,7 +21,7 @@ export default function List({employees}) {
     closeBtnBgColor: "#2591CE",
   };
 
-  // Theme
+  // Table theme
   const theme = useTheme(getTheme());
 
   // Search
@@ -76,6 +65,7 @@ export default function List({employees}) {
     },
   );
 
+
   function onSortChange(action, state) {
     console.log(action, state);
   }
@@ -93,55 +83,29 @@ export default function List({employees}) {
     console.log(action, state);
   }
 
-  const sizes = [10, 25, 50];
+  const sizes = [10, 25, 50, 100];
 
   const handlePaginationChange = event => {
     pagination.fns.onSetSize(event.target.value)
   };
 
-  // Action
-  async function getList() {
-    const resp = await api.employeeList();
-    const data =  resp.data.body;
-    setList(data);
-  }
-
-  function onCreateBtn() {
-    navigate('/form')
-  };
-
-  function onEditBtn(item) {
-    dispatch(getEmployee({employee: item}));
-    navigate('/form')
-  }
-
-  async function handleDelete(id) {
-    await api.delete(id)
-    setModalOpen(true)
-    getList()
-  };
-
-  // Date format
-  const formatDate = (date) => {
-    const newDate = new Date(date)
-    const day = (newDate.getDate()).toString().padStart(2, '0');
-    const month = (newDate.getMonth() + 1).toString().padStart(2, '0');
-    const year = newDate.getFullYear();
-    return `${day}/${month}/${year}`.toString();
-  };
-
   return (
     <div className="list">
-      <h1 className="list-title">Employee list</h1>
+      <h1 className="list-title">Current Employees</h1>
       <div className="list-table-header">
+        <span>
+          show
+          <select className="entries-select" onChange={handlePaginationChange}>
+            {sizes.map((size) => (
+              <option key={size} value={size}>{size}</option>
+            ))}
+          </select>
+          entries
+        </span>
         <label htmlFor="search" className="list-search">
           Search:  
           <input id="search" type="text" value={search} onChange={handleSearch} />
         </label>
-        <button className="add-btn btn bg-dark" onClick={() => onCreateBtn()}>
-          <FontAwesomeIcon className="add-icon" icon={faPlus} />
-          Create employee
-        </button>
       </div>
       <div className="list-table">
         <Table data={data}  theme={theme} sort={sort} pagination={pagination}>
@@ -158,12 +122,11 @@ export default function List({employees}) {
                   <HeaderCellSort className="column-header" sortKey="CITY">City</HeaderCellSort>
                   <HeaderCellSort className="column-header" sortKey="STATE">State</HeaderCellSort>
                   <HeaderCellSort className="column-header" sortKey="ZIP">Zip code</HeaderCellSort>
-                  <HeaderCell className="column-header text-hidden"> Action</HeaderCell>
                 </HeaderRow>
               </Header>
               <Body>
                 {tableList.map((item) => (
-                  <Row key={item._id} item={item}>
+                  <Row key={item.id} item={item}>
                     <Cell>{item.firstName}</Cell>
                     <Cell>{item.lastName}</Cell>
                     <Cell>{formatDate(item.startDate)}</Cell>
@@ -171,32 +134,25 @@ export default function List({employees}) {
                     <Cell>{formatDate(item.birthDay)}</Cell>
                     <Cell>{item.street}</Cell>
                     <Cell>{item.city}</Cell>
-                    <Cell>{item.state}</Cell>
+                    <Cell>{item.stateAb}</Cell>
                     <Cell>{item.zipCode}</Cell>
-                    <Cell>
-                      <button aria-label="edit employee" type="button" className="action-btn edit-btn" onClick={() => onEditBtn(item)}>
-                        <FontAwesomeIcon icon={faPenToSquare} />
-                      </button>
-
-                      <button aria-label="delete employee" type="button" className="action-btn delete-btn" onClick={() => handleDelete(item._id)}>
-                        <FontAwesomeIcon icon={faTrashCan} />
-                      </button>
-                    </Cell>
                   </Row>
                 ))}
               </Body>
             </>
           )}
         </Table>
+        {!data.nodes.length && 
+          <div className="empty-table">No data available in table</div>
+        }
 
         <div className="pagination">
           <span>
-            page size:{' '}
-            <select onChange={handlePaginationChange}>
-              {sizes.map((size) => (
-                <option key={size} value={size}>{size}</option>
-              ))}
-            </select>
+            Showing {pagination.state.getPageBoundaries(data.nodes).start}
+            {' to '}
+            {pagination.state.getPageBoundaries(data.nodes).end}
+            {' of '}
+            {data.nodes.length}{' entries'}
           </span>
 
           <div className="page-navigation">
@@ -232,12 +188,13 @@ export default function List({employees}) {
 
 
 List.propTypes = {
-  employees: PropTypes.arrayOf(
+  list: PropTypes.arrayOf(
     PropTypes.shape({
+      id: PropTypes.string.isRequired,
       firstName: PropTypes.string.isRequired,
       lastName: PropTypes.string.isRequired,
-      birthDay: PropTypes.string.isRequired,
-      startDate: PropTypes.string.isRequired,
+      birthDay: PropTypes.instanceOf(Date).isRequired,
+      startDate: PropTypes.instanceOf(Date).isRequired,
       street: PropTypes.string.isRequired,
       city: PropTypes.string.isRequired,
       state: PropTypes.string.isRequired,
@@ -245,5 +202,5 @@ List.propTypes = {
       zipCode: PropTypes.string.isRequired,
       department: PropTypes.string.isRequired,
     })
-  ).isRequired,
+  )
 }

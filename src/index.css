@@ -6,29 +6,3 @@ body {
   margin: 0;
   background-color: #ECF2F9;
 }
-
-.btn {
-  display: block;
-  padding: 10px 20px;
-  font-size: 1.1rem;
-  font-weight: bold;
-  border-color: transparent;
-  border-radius: 5px;
-}
-
-.bg-dark {
-  background-color: #2591CE;
-  color: #fff;
-}
-
-.bg-light {
-  color: #000;
-  background-color: #ebebeb;
-}
-
-.text-hidden {
-  color: transparent;
-  width: unset;
-  height: unset;
-  margin: unset;
-}

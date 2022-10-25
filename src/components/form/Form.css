@@ -1,21 +1,13 @@
 .form {
-  width: 90%;
+  width: 60%;
   margin: 45px auto;
   background-color: #fff;
   padding: 20px;
 }
 
 .form form {
-  width: 70%;
+  width: 90%;
   margin: auto;
-}
-
-.input-wrapper {
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-  margin: 35px 0;
-  font-size: 1.2rem !important;
 }
 
 .select-input div {
@@ -36,15 +28,22 @@
 .btn-container {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   margin-top: 60px;
 }
 
-.create-button {
-  margin-left: 50px;
+.bg-dark {
+  display: block;
+  padding: 10px 20px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-color: transparent;
+  border-radius: 5px;
+  background-color: #2591CE;
+  color: #fff;
 }
 
-@media (max-width: 950px) {
+@media (max-width: 1140px) {
   .date-input-wrapper {
     display: unset;
   }

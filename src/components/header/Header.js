@@ -1,24 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons'
-import { logout }from '../../redux/loginSlice';
+import { Link, NavLink } from 'react-router-dom';
 import Logo from '../../assets/logo.png';
 import './Header.css';
 
 export default function Header() {
-  const isLoggedIn = useSelector((state)=>state.login.isLogged)
-  const dispatch = useDispatch();
-  
-  const signOut = () => {
-    dispatch(logout());
-    localStorage.removeItem('token')
-  };
-
-  if(!isLoggedIn) {
-   return;
-  }
 
   return (
     <header className="main-nav">
@@ -26,10 +11,20 @@ export default function Header() {
         <img src={ Logo } alt='logo HRnet' className="logo-header"></img>
       </Link>
       <nav className="header-nav">
-        <Link to="/login" className="nav-link" onClick={signOut}>
-          <FontAwesomeIcon className="logout-icon" icon={faArrowRightFromBracket} />
-          Logout
-        </Link> 
+        <NavLink to="/" className="nav-link"
+          style={({ isActive }) => ({
+            color: isActive ? '#2591CE' : '#ffffff', 
+            backgroundColor:  isActive ? '#ffffff' : '#2591CE',
+          })}>
+            HOME
+        </NavLink> 
+        <NavLink to="/employee-list" className="nav-link"
+          style={({ isActive }) => ({
+            color: isActive ? '#2591CE' : '#ffffff', 
+            backgroundColor:  isActive ? '#ffffff' : '#2591CE',
+          })}>
+            LIST
+        </NavLink> 
       </nav>
     </header>
   );
