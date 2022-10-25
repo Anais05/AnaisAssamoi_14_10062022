@@ -148,7 +148,7 @@ export default function List({list}) {
 
         <div className="pagination">
           <span>
-            Showing {pagination.state.getPageBoundaries(data.nodes).start}
+            Showing {data.nodes.length ? pagination.state.getPageBoundaries(data.nodes).start : 0}
             {' to '}
             {pagination.state.getPageBoundaries(data.nodes).end}
             {' of '}
