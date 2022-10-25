@@ -4,7 +4,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import Select from 'react-select'
 import { Modal } from "simple-react-modal-by-assamoi";
 import Input from "../input/Input";
-import { departmentOptions, statesOptions, generateId, formatDate } from "../../utils/utils";
+import { departmentOptions, statesOptions, generateId } from "../../utils/utils";
 import { addEmployee } from "../../redux/employeeSlice";
 import { useDispatch } from 'react-redux';
 import './Form.css'
@@ -36,8 +36,8 @@ export default function Form() {
       id: generateId(),
       firstName : firstName,
       lastName : lastName,
-      birthDay : formatDate(birthDay),
-      startDate : formatDate(startDate),
+      birthDay : birthDay,
+      startDate : startDate,
       street : street,
       city : city,
       state : selectedState.label,
@@ -73,32 +73,16 @@ export default function Form() {
         <div className="date-input-wrapper">
           <div className="input-wrapper">
             <label htmlFor="birthday">Birth Date</label>
-            <DatePicker 
-              id="birthday"
-              selected={birthDay}
-              dateFormat="dd/MM/yyyy" 
-              showMonthDropdown
-              useShortMonthInDropdown
-              showYearDropdown
-              dropdownMode="select" 
-              onChange={(date) => setBirthDay(date)} 
-              placeholderText="select birth date"
-              required
+            <DatePicker id="birthday" selected={birthDay} dateFormat="dd/MM/yyyy" dropdownMode="select"
+              showMonthDropdown useShortMonthInDropdown showYearDropdown onChange={(date) => setBirthDay(date)} 
+              placeholderText="select birth date" todayButton="Today" required
             />
           </div>
           <div className="input-wrapper">
             <label htmlFor="startDate">Start Date</label>
-            <DatePicker
-              id="startDate" 
-              selected={startDate} 
-              dateFormat="dd/MM/yyyy" 
-              showMonthDropdown
-              useShortMonthInDropdown
-              showYearDropdown
-              dropdownMode="select"
-              onChange={(date) => setStartDate(date)} 
-              placeholderText="select start date"
-              required
+            <DatePicker id="startDate" selected={startDate} dateFormat="dd/MM/yyyy" dropdownMode="select"
+              showMonthDropdown useShortMonthInDropdown showYearDropdown onChange={(date) => setStartDate(date)} 
+              placeholderText="select start date" todayButton="Today" required
             />
           </div>
         </div>

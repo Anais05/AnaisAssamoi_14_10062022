@@ -6,7 +6,7 @@ import { usePagination } from '@table-library/react-table-library/pagination';
 import { HeaderCellSort, useSort } from '@table-library/react-table-library/sort';
 import { Modal } from "simple-react-modal-by-assamoi";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { generateId } from "../../utils/utils";
+import { formatDate } from "../../utils/utils";
 import { faAngleLeft, faAnglesLeft, faAngleRight, faAnglesRight } from '@fortawesome/free-solid-svg-icons'
 import PropTypes from 'prop-types';
 import './List.css';
@@ -64,6 +64,7 @@ export default function List({list}) {
       },
     },
   );
+
 
   function onSortChange(action, state) {
     console.log(action, state);
@@ -128,24 +129,22 @@ export default function List({list}) {
                   <Row key={item.id} item={item}>
                     <Cell>{item.firstName}</Cell>
                     <Cell>{item.lastName}</Cell>
-                    <Cell>{item.startDate}</Cell>
+                    <Cell>{formatDate(item.startDate)}</Cell>
                     <Cell>{item.department}</Cell>
-                    <Cell>{item.birthDay}</Cell>
+                    <Cell>{formatDate(item.birthDay)}</Cell>
                     <Cell>{item.street}</Cell>
                     <Cell>{item.city}</Cell>
                     <Cell>{item.stateAb}</Cell>
                     <Cell>{item.zipCode}</Cell>
                   </Row>
                 ))}
-                {!tableList.length && 
-                  <Row>
-                    <Cell className="empty-table" gridColumnStart={1} gridColumnEnd={10}>No data available in table</Cell>
-                  </Row>
-                }
               </Body>
             </>
           )}
         </Table>
+        {!data.nodes.length && 
+          <div className="empty-table">No data available in table</div>
+        }
 
         <div className="pagination">
           <span>
@@ -194,8 +193,8 @@ List.propTypes = {
       id: PropTypes.string.isRequired,
       firstName: PropTypes.string.isRequired,
       lastName: PropTypes.string.isRequired,
-      birthDay: PropTypes.string.isRequired,
-      startDate: PropTypes.string.isRequired,
+      birthDay: PropTypes.instanceOf(Date).isRequired,
+      startDate: PropTypes.instanceOf(Date).isRequired,
       street: PropTypes.string.isRequired,
       city: PropTypes.string.isRequired,
       state: PropTypes.string.isRequired,
