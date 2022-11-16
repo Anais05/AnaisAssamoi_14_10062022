@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/AnaisAssamoi_14_10062022/static/css/main.c9b824f7.css",
+    "main.js": "/AnaisAssamoi_14_10062022/static/js/main.e7d6c1df.js",
+    "index.html": "/AnaisAssamoi_14_10062022/index.html",
+    "main.c9b824f7.css.map": "/AnaisAssamoi_14_10062022/static/css/main.c9b824f7.css.map",
+    "main.e7d6c1df.js.map": "/AnaisAssamoi_14_10062022/static/js/main.e7d6c1df.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c9b824f7.css",
+    "static/js/main.e7d6c1df.js"
+  ]
+}
